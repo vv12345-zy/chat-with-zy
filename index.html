@@ -81,55 +81,57 @@
             background-color: #ffb3b3;
         }
     </style>
-    <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+</head>
+<body>
+    <div class="header">Chat with 泽阳</div>
+
+    <div class="chat-container" id="chat-container">
+        <!-- Messages will appear here -->
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
 
     <script>
+        // Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyAndWUDlmB3Q78Ll30deGWvT3G_3wDN_h0",
-            authDomain: "chat-with-zy.firebaseapp.com",
-            databaseURL: "https://chat-with-zy-default-rtdb.firebaseio.com",
-            projectId: "chat-with-zy",
-            storageBucket: "chat-with-zy.firebasestorage.app",
-            messagingSenderId: "279271325325",
-            appId: "1:279271325325:web:c4fcc48c5299132e0decc4",
-            measurementId: "G-CK16PMZXL1"
+          apiKey: "AIzaSyAndWUDlmB3Q78Ll30deGWvT3G_3wDN_h0",
+          authDomain: "chat-with-zy.firebaseapp.com",
+          databaseURL: "https://chat-with-zy-default-rtdb.firebaseio.com",
+          projectId: "chat-with-zy",
+          storageBucket: "chat-with-zy.firebasestorage.app",
+          messagingSenderId: "279271325325",
+          appId: "1:279271325325:web:c4fcc48c5299132e0decc4",
+          measurementId: "G-CK16PMZXL1"
         };
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        
+        const db = firebase.database(app);
+
         const chatContainer = document.getElementById('chat-container');
-
-        // Load messages from Firebase
-        const messagesRef = database.ref('messages');
-        messagesRef.on('child_added', function(snapshot) {
-            const messageData = snapshot.val();
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message ' + (messageData.sender === 'user' ? 'user' : 'ze_yang');
-            messageDiv.textContent = messageData.message;
-            chatContainer.appendChild(messageDiv);
-
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        });
 
         function sendMessage() {
             const inputField = document.getElementById('user-input');
             const message = inputField.value.trim();
 
             if (message) {
-                // Add user message
+                // Add user message to chat
                 const userMessage = document.createElement('div');
                 userMessage.className = 'message user';
                 userMessage.textContent = message;
                 chatContainer.appendChild(userMessage);
 
                 // Save user message to Firebase
-                const messageRef = database.ref('messages').push();
-                messageRef.set({
+                const messagesRef = firebase.ref(db, 'messages');
+                const newMessageRef = firebase.push(messagesRef);
+                firebase.set(newMessageRef, {
                     sender: 'user',
                     message: message
                 });
@@ -142,8 +144,8 @@
                     chatContainer.appendChild(replyMessage);
 
                     // Save Ze Yang reply to Firebase
-                    const replyRef = database.ref('messages').push();
-                    replyRef.set({
+                    const replyRef = firebase.push(messagesRef);
+                    firebase.set(replyRef, {
                         sender: 'ze_yang',
                         message: generateReply(message)
                     });
@@ -169,18 +171,25 @@
             ];
             return replies[Math.floor(Math.random() * replies.length)];
         }
+
+        // Listen for new messages from Firebase
+        const messagesRef = firebase.ref(db, 'messages');
+        firebase.onValue(messagesRef, (snapshot) => {
+            const data = snapshot.val();
+            chatContainer.innerHTML = ''; // Clear current chat
+
+            // Loop through messages and display
+            for (const id in data) {
+                const messageData = data[id];
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message ' + (messageData.sender === 'user' ? 'user' : 'ze_yang');
+                messageDiv.textContent = messageData.message;
+                chatContainer.appendChild(messageDiv);
+            }
+
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        });
     </script>
-</head>
-<body>
-    <div class="header">Chat with 泽阳</div>
-
-    <div class="chat-container" id="chat-container">
-        <!-- Messages will appear here -->
-    </div>
-
-    <div class="input-container">
-        <input type="text" id="user-input" placeholder="Type a message...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
 </body>
 </html>
