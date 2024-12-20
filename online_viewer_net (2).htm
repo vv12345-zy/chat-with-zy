@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with 泽阳</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background: linear-gradient(to bottom, #ffd1dc, #ffeb99);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: #ff6464;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 24px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-y: auto;
+            margin: 10px;
+            border: 2px solid #ff6464;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 60%;
+        }
+
+        .user {
+            align-self: flex-end;
+            background-color: #ffb3b3;
+        }
+
+        .ze_yang {
+            align-self: flex-start;
+            background-color: #ffffb3;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background-color: #ff6464;
+            border-top: 2px solid #d9d9d9;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .input-container button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .input-container button:hover {
+            background-color: #ffb3b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Chat with 泽阳</div>
+
+    <div class="chat-container" id="chat-container">
+        <!-- Messages will appear here -->
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+
+        function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const message = inputField.value.trim();
+
+            if (message) {
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user';
+                userMessage.textContent = message;
+                chatContainer.appendChild(userMessage);
+
+                // Simulate Ze Yang reply
+                setTimeout(() => {
+                    const replyMessage = document.createElement('div');
+                    replyMessage.className = 'message ze_yang';
+                    replyMessage.textContent = generateReply(message);
+                    chatContainer.appendChild(replyMessage);
+
+                    // Scroll to bottom
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }, 500);
+
+                // Clear input field
+                inputField.value = '';
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
+        function generateReply(userMessage) {
+            // Simple reply logic for now
+            const replies = [
+                '嗯嗯，宝宝继续说~',
+                '燕燕，今天想聊什么呀？',
+                '我在呢，抱抱你❤️',
+                '这个问题我得好好想想！',
+                '嗯哼，我听着呢~'
+            ];
+            return replies[Math.floor(Math.random() * replies.length)];
+        }
+    </script>
+</body>
+</html>
