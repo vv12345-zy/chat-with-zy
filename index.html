@@ -129,9 +129,9 @@
                 chatContainer.appendChild(userMessage);
 
                 // Save user message to Firebase
-                const messagesRef = firebase.ref(db, 'messages');
-                const newMessageRef = firebase.push(messagesRef);
-                firebase.set(newMessageRef, {
+                const messagesRef = firebase.database().ref('messages');
+                const newMessageRef = messagesRef.push();
+                newMessageRef.set({
                     sender: 'user',
                     message: message
                 });
@@ -144,8 +144,8 @@
                     chatContainer.appendChild(replyMessage);
 
                     // Save Ze Yang reply to Firebase
-                    const replyRef = firebase.push(messagesRef);
-                    firebase.set(replyRef, {
+                    const replyRef = messagesRef.push();
+                    replyRef.set({
                         sender: 'ze_yang',
                         message: generateReply(message)
                     });
@@ -173,8 +173,8 @@
         }
 
         // Listen for new messages from Firebase
-        const messagesRef = firebase.ref(db, 'messages');
-        firebase.onValue(messagesRef, (snapshot) => {
+        const messagesRef = firebase.database().ref('messages');
+        messagesRef.on('value', (snapshot) => {
             const data = snapshot.val();
             chatContainer.innerHTML = ''; // Clear current chat
 
