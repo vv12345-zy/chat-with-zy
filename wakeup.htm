@@ -1,0 +1,443 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Aptos;}
+@font-face
+	{font-family:"Segoe UI Emoji";
+	panose-1:2 11 5 2 4 2 4 2 2 3;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:8.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;}
+.MsoChpDefault
+	{font-family:"Aptos",sans-serif;}
+.MsoPapDefault
+	{margin-bottom:8.0pt;
+	line-height:115%;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-MY style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal>&lt;!DOCTYPE html&gt;</p>
+
+<p class=MsoNormal>&lt;html lang=&quot;en&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;head&gt;</p>
+
+<p class=MsoNormal>  &lt;meta charset=&quot;UTF-8&quot;&gt;</p>
+
+<p class=MsoNormal>  &lt;meta name=&quot;viewport&quot;
+content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</p>
+
+<p class=MsoNormal>  &lt;title&gt;<span lang=ZH-CN style='font-family:DengXian'>&#36215;&#24202;&#23567;&#28216;&#25103;</span>&lt;/title&gt;</p>
+
+<p class=MsoNormal>  &lt;style&gt;</p>
+
+<p class=MsoNormal>    body {</p>
+
+<p class=MsoNormal>      margin: 0;</p>
+
+<p class=MsoNormal>      padding: 0;</p>
+
+<p class=MsoNormal>      font-family: 'Courier New', monospace;</p>
+
+<p class=MsoNormal>      background-color: #fff8dc;</p>
+
+<p class=MsoNormal>      display: flex;</p>
+
+<p class=MsoNormal>      flex-direction: column;</p>
+
+<p class=MsoNormal>      align-items: center;</p>
+
+<p class=MsoNormal>      justify-content: center;</p>
+
+<p class=MsoNormal>      height: 100vh;</p>
+
+<p class=MsoNormal>      overflow: hidden;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    h1 {</p>
+
+<p class=MsoNormal>      color: #ff6347;</p>
+
+<p class=MsoNormal>      margin: 10px;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #game-area {</p>
+
+<p class=MsoNormal>      width: 90%;</p>
+
+<p class=MsoNormal>      height: 60%;</p>
+
+<p class=MsoNormal>      position: relative;</p>
+
+<p class=MsoNormal>      background: #ffefd5;</p>
+
+<p class=MsoNormal>      border: 2px dashed #ff6347;</p>
+
+<p class=MsoNormal>      border-radius: 10px;</p>
+
+<p class=MsoNormal>      overflow: hidden;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    .target {</p>
+
+<p class=MsoNormal>      position: absolute;</p>
+
+<p class=MsoNormal>      width: 50px;</p>
+
+<p class=MsoNormal>      height: 50px;</p>
+
+<p class=MsoNormal>      font-size: 40px;</p>
+
+<p class=MsoNormal>      line-height: 50px;</p>
+
+<p class=MsoNormal>      text-align: center;</p>
+
+<p class=MsoNormal>      background: #ffefd5;</p>
+
+<p class=MsoNormal>      border-radius: 50%;</p>
+
+<p class=MsoNormal>      color: #ff8c00;</p>
+
+<p class=MsoNormal>      cursor: pointer;</p>
+
+<p class=MsoNormal>      user-select: none;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #score {</p>
+
+<p class=MsoNormal>      margin-top: 10px;</p>
+
+<p class=MsoNormal>      font-size: 18px;</p>
+
+<p class=MsoNormal>      color: #ff6347;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #start-btn {</p>
+
+<p class=MsoNormal>      padding: 10px 20px;</p>
+
+<p class=MsoNormal>      background: #ff6347;</p>
+
+<p class=MsoNormal>      color: white;</p>
+
+<p class=MsoNormal>      border: none;</p>
+
+<p class=MsoNormal>      border-radius: 5px;</p>
+
+<p class=MsoNormal>      cursor: pointer;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #start-btn:hover {</p>
+
+<p class=MsoNormal>      background: #ff4500;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #end-modal {</p>
+
+<p class=MsoNormal>      display: none;</p>
+
+<p class=MsoNormal>      position: fixed;</p>
+
+<p class=MsoNormal>      top: 0;</p>
+
+<p class=MsoNormal>      left: 0;</p>
+
+<p class=MsoNormal>      width: 100%;</p>
+
+<p class=MsoNormal>      height: 100%;</p>
+
+<p class=MsoNormal>      background: rgba(0, 0, 0, 0.8);</p>
+
+<p class=MsoNormal>      color: white;</p>
+
+<p class=MsoNormal>      display: flex;</p>
+
+<p class=MsoNormal>      align-items: center;</p>
+
+<p class=MsoNormal>      justify-content: center;</p>
+
+<p class=MsoNormal>      flex-direction: column;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #end-modal h2 {</p>
+
+<p class=MsoNormal>      margin-bottom: 20px;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #restart-btn {</p>
+
+<p class=MsoNormal>      padding: 10px 20px;</p>
+
+<p class=MsoNormal>      background: #ff6347;</p>
+
+<p class=MsoNormal>      color: white;</p>
+
+<p class=MsoNormal>      border: none;</p>
+
+<p class=MsoNormal>      border-radius: 5px;</p>
+
+<p class=MsoNormal>      cursor: pointer;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    #restart-btn:hover {</p>
+
+<p class=MsoNormal>      background: #ff4500;</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>  &lt;/style&gt;</p>
+
+<p class=MsoNormal>&lt;/head&gt;</p>
+
+<p class=MsoNormal>&lt;body&gt;</p>
+
+<p class=MsoNormal>  &lt;h1&gt;<span lang=ZH-CN style='font-family:DengXian'>&#24555;&#36895;&#28857;&#20987;&#22826;&#38451;&#65281;&#28165;&#37266;&#25361;&#25112;&#24320;&#22987;&#65281;</span>&lt;/h1&gt;</p>
+
+<p class=MsoNormal>  &lt;div id=&quot;score&quot;&gt;<span lang=ZH-CN
+style='font-family:DengXian'>&#28165;&#37266;&#24230;</span>: 0%&lt;/div&gt;</p>
+
+<p class=MsoNormal>  &lt;button id=&quot;start-btn&quot;
+onclick=&quot;startGame()&quot;&gt;<span lang=ZH-CN style='font-family:DengXian'>&#24320;&#22987;&#28216;&#25103;</span>&lt;/button&gt;</p>
+
+<p class=MsoNormal>  &lt;div id=&quot;game-area&quot;&gt;&lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>  &lt;div id=&quot;end-modal&quot;&gt;</p>
+
+<p class=MsoNormal>    &lt;h2 id=&quot;end-message&quot;&gt;<span lang=ZH-CN
+style='font-family:DengXian'>&#28165;&#37266;&#24230;&#65306;</span>0%<span
+lang=ZH-CN style='font-family:DengXian'>&#12290;&#20320;&#36824;&#22312;&#36182;&#24202;&#65281;</span>&lt;/h2&gt;</p>
+
+<p class=MsoNormal>    &lt;h3
+id=&quot;encouragement-message&quot;&gt;&lt;/h3&gt;</p>
+
+<p class=MsoNormal>    &lt;button id=&quot;restart-btn&quot;
+onclick=&quot;restartGame()&quot;&gt;<span lang=ZH-CN style='font-family:DengXian'>&#20877;&#26469;&#19968;&#27425;</span>&lt;/button&gt;</p>
+
+<p class=MsoNormal>  &lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>  &lt;script&gt;</p>
+
+<p class=MsoNormal>    let score = 0;</p>
+
+<p class=MsoNormal>    let gameInterval;</p>
+
+<p class=MsoNormal>    let gameTimeout;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    const encouragements = [</p>
+
+<p class=MsoNormal>      &quot;<span lang=ZH-CN style='font-family:DengXian'>&#29141;&#29141;&#65292;&#20320;&#22826;&#26834;&#20102;&#65281;&#19968;&#22825;&#30340;&#33021;&#37327;&#28385;&#28385;&#65281;</span>&quot;,</p>
+
+<p class=MsoNormal>      &quot;<span lang=ZH-CN style='font-family:DengXian'>&#36215;&#24202;&#25104;&#21151;&#65281;&#23567;&#29483;&#21674;&#35201;&#20054;&#20054;&#23436;&#25104;&#20170;&#22825;&#30340;&#30446;&#26631;&#21734;&#65281;</span>&quot;,</p>
+
+<p class=MsoNormal>      &quot;<span lang=ZH-CN style='font-family:DengXian'>&#27901;&#38451;&#20026;&#20320;&#39556;&#20658;&#65281;&#20170;&#22825;&#20063;&#35201;&#32487;&#32493;&#21152;&#27833;&#21568;&#65281;</span>&quot;,</p>
+
+<p class=MsoNormal>      &quot;<span lang=ZH-CN style='font-family:DengXian'>&#20877;&#36182;&#24202;&#23601;&#25235;&#20320;&#21862;&#65281;&#19981;&#36807;&#36825;&#27425;&#20320;&#24456;&#26834;&#65292;&#36215;&#24202;&#21543;&#65281;</span>&quot;,</p>
+
+<p class=MsoNormal>      &quot;<span lang=ZH-CN style='font-family:DengXian'>&#26368;&#21487;&#29233;&#30340;&#29141;&#29141;&#24050;&#32463;&#28385;&#34880;&#22797;&#27963;&#65292;&#24555;&#21435;&#24449;&#26381;&#20170;&#22825;&#21543;&#65281;</span>&quot;</p>
+
+<p class=MsoNormal>    ];</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    function startGame() {</p>
+
+<p class=MsoNormal>      score = 0;</p>
+
+<p class=MsoNormal>      document.getElementById(&quot;score&quot;).textContent
+= `<span lang=ZH-CN style='font-family:DengXian'>&#28165;&#37266;&#24230;</span>:
+${score}%`;</p>
+
+<p class=MsoNormal>     
+document.getElementById(&quot;start-btn&quot;).style.display =
+&quot;none&quot;;</p>
+
+<p class=MsoNormal>      const gameArea =
+document.getElementById(&quot;game-area&quot;);</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>      // <span lang=ZH-CN style='font-family:DengXian'>&#27599;</span>1<span
+lang=ZH-CN style='font-family:DengXian'>&#31186;&#29983;&#25104;&#19968;&#20010;&#30446;&#26631;</span></p>
+
+<p class=MsoNormal>      gameInterval = setInterval(() =&gt; {</p>
+
+<p class=MsoNormal>        const target =
+document.createElement(&quot;div&quot;);</p>
+
+<p class=MsoNormal>        target.classList.add(&quot;target&quot;);</p>
+
+<p class=MsoNormal>        target.textContent = &quot;<span style='font-family:
+"Segoe UI Emoji",sans-serif'>&#127774;</span>&quot;;</p>
+
+<p class=MsoNormal>        target.style.left = `${Math.random() *
+(gameArea.offsetWidth - 50)}px`;</p>
+
+<p class=MsoNormal>        target.style.top = `${Math.random() *
+(gameArea.offsetHeight - 50)}px`;</p>
+
+<p class=MsoNormal>        target.onclick = () =&gt; {</p>
+
+<p class=MsoNormal>          score += 10;</p>
+
+<p class=MsoNormal>         
+document.getElementById(&quot;score&quot;).textContent = `<span lang=ZH-CN
+style='font-family:DengXian'>&#28165;&#37266;&#24230;</span>: ${score}%`;</p>
+
+<p class=MsoNormal>          target.remove();</p>
+
+<p class=MsoNormal>        };</p>
+
+<p class=MsoNormal>        gameArea.appendChild(target);</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        // <span lang=ZH-CN style='font-family:DengXian'>&#30446;&#26631;</span>5<span
+lang=ZH-CN style='font-family:DengXian'>&#31186;&#21518;&#33258;&#21160;&#28040;&#22833;</span></p>
+
+<p class=MsoNormal>        setTimeout(() =&gt; target.remove(), 5000);</p>
+
+<p class=MsoNormal>      }, 1000);</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>      // 30<span lang=ZH-CN style='font-family:DengXian'>&#31186;&#21518;&#32467;&#26463;&#28216;&#25103;</span></p>
+
+<p class=MsoNormal>      gameTimeout = setTimeout(endGame, 30000);</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    function endGame() {</p>
+
+<p class=MsoNormal>      clearInterval(gameInterval);</p>
+
+<p class=MsoNormal>      clearTimeout(gameTimeout);</p>
+
+<p class=MsoNormal>     
+document.getElementById(&quot;end-modal&quot;).style.display =
+&quot;flex&quot;;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>      const endMessage =
+document.getElementById(&quot;end-message&quot;);</p>
+
+<p class=MsoNormal>      const encouragementMessage =
+document.getElementById(&quot;encouragement-message&quot;);</p>
+
+<p class=MsoNormal>      if (score &gt;= 100) {</p>
+
+<p class=MsoNormal>        endMessage.textContent = `<span lang=ZH-CN
+style='font-family:DengXian'>&#28165;&#37266;&#24230;&#65306;</span>${score}%<span
+lang=ZH-CN style='font-family:DengXian'>&#12290;&#20320;&#24050;&#32463;&#28165;&#37266;&#21862;&#65281;&#36215;&#24202;&#25104;&#21151;&#65281;</span>`;</p>
+
+<p class=MsoNormal>        encouragementMessage.textContent =
+encouragements[Math.floor(Math.random() * encouragements.length)];</p>
+
+<p class=MsoNormal>      } else {</p>
+
+<p class=MsoNormal>        endMessage.textContent = `<span lang=ZH-CN
+style='font-family:DengXian'>&#28165;&#37266;&#24230;&#65306;</span>${score}%<span
+lang=ZH-CN style='font-family:DengXian'>&#12290;&#20320;&#36824;&#22312;&#36182;&#24202;&#65281;&#24555;&#20877;&#35797;&#19968;&#27425;&#65281;</span>`;</p>
+
+<p class=MsoNormal>        encouragementMessage.textContent = &quot;&quot;;</p>
+
+<p class=MsoNormal>      }</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    function restartGame() {</p>
+
+<p class=MsoNormal>     
+document.getElementById(&quot;end-modal&quot;).style.display =
+&quot;none&quot;;</p>
+
+<p class=MsoNormal>     
+document.getElementById(&quot;game-area&quot;).innerHTML = &quot;&quot;;</p>
+
+<p class=MsoNormal>      startGame();</p>
+
+<p class=MsoNormal>    }</p>
+
+<p class=MsoNormal>  &lt;/script&gt;</p>
+
+<p class=MsoNormal>&lt;/body&gt;</p>
+
+<p class=MsoNormal>&lt;/html&gt;</p>
+
+</div>
+
+</body>
+
+</html>
