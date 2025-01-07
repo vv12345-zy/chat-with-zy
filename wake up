@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>起床小游戏</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', monospace;
+      background-color: #fff8dc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #ff6347;
+      margin: 10px;
+    }
+
+    #game-area {
+      width: 90%;
+      height: 60%;
+      position: relative;
+      background: #ffefd5;
+      border: 2px dashed #ff6347;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .target {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      font-size: 40px;
+      line-height: 50px;
+      text-align: center;
+      background: #ffefd5;
+      border-radius: 50%;
+      color: #ff8c00;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    #score {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ff6347;
+    }
+
+    #start-btn {
+      padding: 10px 20px;
+      background: #ff6347;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #start-btn:hover {
+      background: #ff4500;
+    }
+
+    #end-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #end-modal h2 {
+      margin-bottom: 20px;
+    }
+
+    #restart-btn {
+      padding: 10px 20px;
+      background: #ff6347;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #restart-btn:hover {
+      background: #ff4500;
+    }
+  </style>
+</head>
+<body>
+  <h1>快速点击太阳！清醒挑战开始！</h1>
+  <div id="score">清醒度: 0%</div>
+  <button id="start-btn" onclick="startGame()">开始游戏</button>
+  <div id="game-area"></div>
+
+  <div id="end-modal">
+    <h2 id="end-message">清醒度：0%。你还在赖床！</h2>
+    <h3 id="encouragement-message"></h3>
+    <button id="restart-btn" onclick="restartGame()">再来一次</button>
+  </div>
+
+  <script>
+    let score = 0;
+    let gameInterval;
+    let gameTimeout;
+
+    const encouragements = [
+      "燕燕，你太棒了！一天的能量满满！",
+      "起床成功！小猫咪要乖乖完成今天的目标哦！",
+      "泽阳为你骄傲！今天也要继续加油呀！",
+      "再赖床就抓你啦！不过这次你很棒，起床吧！",
+      "最可爱的燕燕已经满血复活，快去征服今天吧！"
+    ];
+
+    function startGame() {
+      score = 0;
+      document.getElementById("score").textContent = `清醒度: ${score}%`;
+      document.getElementById("start-btn").style.display = "none";
+      const gameArea = document.getElementById("game-area");
+
+      // 每1秒生成一个目标
+      gameInterval = setInterval(() => {
+        const target = document.createElement("div");
+        target.classList.add("target");
+        target.textContent = "🌞";
+        target.style.left = `${Math.random() * (gameArea.offsetWidth - 50)}px`;
+        target.style.top = `${Math.random() * (gameArea.offsetHeight - 50)}px`;
+        target.onclick = () => {
+          score += 10;
+          document.getElementById("score").textContent = `清醒度: ${score}%`;
+          target.remove();
+        };
+        gameArea.appendChild(target);
+
+        // 目标5秒后自动消失
+        setTimeout(() => target.remove(), 5000);
+      }, 1000);
+
+      // 30秒后结束游戏
+      gameTimeout = setTimeout(endGame, 30000);
+    }
+
+    function endGame() {
+      clearInterval(gameInterval);
+      clearTimeout(gameTimeout);
+      document.getElementById("end-modal").style.display = "flex";
+
+      const endMessage = document.getElementById("end-message");
+      const encouragementMessage = document.getElementById("encouragement-message");
+      if (score >= 100) {
+        endMessage.textContent = `清醒度：${score}%。你已经清醒啦！起床成功！`;
+        encouragementMessage.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
+      } else {
+        endMessage.textContent = `清醒度：${score}%。你还在赖床！快再试一次！`;
+        encouragementMessage.textContent = "";
+      }
+    }
+
+    function restartGame() {
+      document.getElementById("end-modal").style.display = "none";
+      document.getElementById("game-area").innerHTML = "";
+      startGame();
+    }
+  </script>
+</body>
+</html>
