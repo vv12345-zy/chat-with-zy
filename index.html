@@ -1,195 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with 泽阳</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            background: linear-gradient(to bottom, #ffd1dc, #ffeb99);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>起床小游戏</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', monospace;
+      background-color: #fff8dc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        .header {
-            background-color: #ff6464;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 24px;
-        }
+    h1 {
+      color: #ff6347;
+      margin: 10px;
+    }
 
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            overflow-y: auto;
-            margin: 10px;
-            border: 2px solid #ff6464;
-            border-radius: 10px;
-            background-color: white;
-        }
+    #game-area {
+      width: 90%;
+      height: 60%;
+      position: relative;
+      background: #ffefd5;
+      border: 2px dashed #ff6347;
+      border-radius: 10px;
+      overflow: hidden;
+    }
 
-        .message {
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 60%;
-        }
+    .target {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      font-size: 40px;
+      line-height: 50px;
+      text-align: center;
+      background: #ffefd5;
+      border-radius: 50%;
+      color: #ff8c00;
+      cursor: pointer;
+      user-select: none;
+    }
 
-        .user {
-            align-self: flex-end;
-            background-color: #ffb3b3;
-        }
+    #score {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ff6347;
+    }
 
-        .ze_yang {
-            align-self: flex-start;
-            background-color: #ffffb3;
-        }
+    #start-btn {
+      padding: 10px 20px;
+      background: #ff6347;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .input-container {
-            display: flex;
-            padding: 10px;
-            background-color: #ff6464;
-            border-top: 2px solid #d9d9d9;
-        }
+    #start-btn:hover {
+      background: #ff4500;
+    }
 
-        .input-container input {
-            flex: 1;
-            padding: 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            outline: none;
-        }
+    #end-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
 
-        .input-container button {
-            margin-left: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    #end-modal h2 {
+      margin-bottom: 20px;
+    }
 
-        .input-container button:hover {
-            background-color: #ffb3b3;
-        }
-    </style>
+    #restart-btn {
+      padding: 10px 20px;
+      background: #ff6347;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-    <!-- Firebase SDK (use CDN to avoid the import issue) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+    #restart-btn:hover {
+      background: #ff4500;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">Chat with 泽阳</div>
+  <h1>快速点击太阳！清醒挑战开始！</h1>
+  <div id="score">清醒度: 0%</div>
+  <button id="start-btn" onclick="startGame()">开始游戏</button>
+  <div id="game-area"></div>
 
-    <div class="chat-container" id="chat-container">
-        <!-- Messages will appear here -->
-    </div>
+  <div id="end-modal">
+    <h2 id="end-message">清醒度：0%。你还在赖床！</h2>
+    <h3 id="encouragement-message"></h3>
+    <button id="restart-btn" onclick="restartGame()">再来一次</button>
+  </div>
 
-    <div class="input-container">
-        <input type="text" id="user-input" placeholder="Type a message...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
+  <script>
+    let score = 0;
+    let gameInterval;
+    let gameTimeout;
 
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyAndWUDlmB3Q78Ll30deGWvT3G_3wDN_h0",
-          authDomain: "chat-with-zy.firebaseapp.com",
-          databaseURL: "https://chat-with-zy-default-rtdb.firebaseio.com",
-          projectId: "chat-with-zy",
-          storageBucket: "chat-with-zy.firebasestorage.app",
-          messagingSenderId: "279271325325",
-          appId: "1:279271325325:web:c4fcc48c5299132e0decc4",
-          measurementId: "G-CK16PMZXL1"
+    const encouragements = [
+      "燕燕，你太棒了！一天的能量满满！",
+      "起床成功！小猫咪要乖乖完成今天的目标哦！",
+      "泽阳为你骄傲！今天也要继续加油呀！",
+      "再赖床就抓你啦！不过这次你很棒，起床吧！",
+      "最可爱的燕燕已经满血复活，快去征服今天吧！"
+    ];
+
+    function startGame() {
+      score = 0;
+      document.getElementById("score").textContent = `清醒度: ${score}%`;
+      document.getElementById("start-btn").style.display = "none";
+      const gameArea = document.getElementById("game-area");
+
+      // 每1秒生成一个目标
+      gameInterval = setInterval(() => {
+        const target = document.createElement("div");
+        target.classList.add("target");
+        target.textContent = "🌞";
+        target.style.left = `${Math.random() * (gameArea.offsetWidth - 50)}px`;
+        target.style.top = `${Math.random() * (gameArea.offsetHeight - 50)}px`;
+        target.onclick = () => {
+          score += 10;
+          document.getElementById("score").textContent = `清醒度: ${score}%`;
+          target.remove();
         };
+        gameArea.appendChild(target);
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.database(app);
+        // 目标5秒后自动消失
+        setTimeout(() => target.remove(), 5000);
+      }, 1000);
 
-        const chatContainer = document.getElementById('chat-container');
+      // 30秒后结束游戏
+      gameTimeout = setTimeout(endGame, 30000);
+    }
 
-        function sendMessage() {
-            const inputField = document.getElementById('user-input');
-            const message = inputField.value.trim();
+    function endGame() {
+      clearInterval(gameInterval);
+      clearTimeout(gameTimeout);
+      document.getElementById("end-modal").style.display = "flex";
 
-            if (message) {
-                // Add user message
-                const userMessage = document.createElement('div');
-                userMessage.className = 'message user';
-                userMessage.textContent = message;
-                chatContainer.appendChild(userMessage);
+      const endMessage = document.getElementById("end-message");
+      const encouragementMessage = document.getElementById("encouragement-message");
+      if (score >= 100) {
+        endMessage.textContent = `清醒度：${score}%。你已经清醒啦！起床成功！`;
+        encouragementMessage.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
+      } else {
+        endMessage.textContent = `清醒度：${score}%。你还在赖床！快再试一次！`;
+        encouragementMessage.textContent = "";
+      }
+    }
 
-                // Save user message to Firebase
-                const messagesRef = firebase.database().ref('messages');
-                const newMessageRef = messagesRef.push();
-                newMessageRef.set({
-                    sender: 'user',
-                    message: message
-                });
-
-                // Simulate Ze Yang reply
-                setTimeout(() => {
-                    const replyMessage = document.createElement('div');
-                    replyMessage.className = 'message ze_yang';
-                    replyMessage.textContent = generateReply(message);
-                    chatContainer.appendChild(replyMessage);
-
-                    // Save Ze Yang reply to Firebase
-                    const replyRef = messagesRef.push();
-                    replyRef.set({
-                        sender: 'ze_yang',
-                        message: generateReply(message)
-                    });
-
-                    // Scroll to bottom
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                }, 500);
-
-                // Clear input field
-                inputField.value = '';
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }
-        }
-
-        function generateReply(userMessage) {
-            // Simple reply logic for now
-            const replies = [
-                '嗯嗯，宝宝继续说~',
-                '燕燕，今天想聊什么呀？',
-                '我在呢，抱抱你❤️',
-                '这个问题我得好好想想！',
-                '嗯哼，我听着呢~'
-            ];
-            return replies[Math.floor(Math.random() * replies.length)];
-        }
-
-        // Listen for new messages from Firebase
-        const messagesRef = firebase.database().ref('messages');
-        messagesRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            chatContainer.innerHTML = ''; // Clear current chat
-
-            // Loop through messages and display
-            for (const id in data) {
-                const messageData = data[id];
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message ' + (messageData.sender === 'user' ? 'user' : 'ze_yang');
-                messageDiv.textContent = messageData.message;
-                chatContainer.appendChild(messageDiv);
-            }
-
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        });
-    </script>
+    function restartGame() {
+      document.getElementById("end-modal").style.display = "none";
+      document.getElementById("game-area").innerHTML = "";
+      startGame();
+    }
+  </script>
 </body>
 </html>
