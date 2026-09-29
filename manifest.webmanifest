@@ -1,0 +1,18 @@
+{
+  "name": "燕燕的小手机",
+  "short_name": "小手机",
+  "description": "燕燕的私人迷你手机",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ead7df",
+  "theme_color": "#ead7df",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
