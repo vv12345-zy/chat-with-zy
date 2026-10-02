@@ -1,50 +1,24 @@
-<!doctype html>
-<html lang="zh">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Soft Cove + 真人喘息</title>
-<style>
-body{margin:0;background:#0f0f10;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.wrap{width:min(92vw,520px);padding:24px}.card{background:#1c1c1e;border-radius:22px;padding:22px;box-shadow:0 12px 50px #0006}
-h1{font-size:24px;margin:0 0 8px}.sub{opacity:.68;font-size:14px;line-height:1.55;margin-bottom:18px}
-button{width:100%;border:0;border-radius:999px;padding:16px 18px;font-size:17px;font-weight:700;background:#fff;color:#111;margin:8px 0}
-.status{font-size:13px;opacity:.78;min-height:38px;margin-top:10px;line-height:1.45}
-</style>
-</head>
-<body><div class="wrap"><div class="card">
-<h1>陆泽阳 · 真人喘息 + Soft Cove</h1>
-<div class="sub">真人 sigh → 你之前最喜欢的 Soft Cove「别抖。放松。」</div>
-<button id="play">▶︎ 播放合成试听</button>
-<div class="status" id="status">CosyVoice 现在已恢复，点一下直接听。</div>
-</div></div>
+<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>结合版试听</title>
+<style>body{margin:0;background:#111;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:grid;place-items:center}.card{width:min(88vw,430px);background:#1d1d1f;border-radius:22px;padding:22px}.sub{opacity:.7;line-height:1.5;font-size:14px}button{width:100%;border:0;border-radius:999px;padding:16px;font-size:17px;font-weight:700;margin-top:14px}.st{opacity:.72;font-size:13px;margin-top:12px;min-height:20px}</style></head>
+<body><div class="card"><h2>真人喘息 + Soft Cove</h2><div class="sub">真人男声喘息 → Soft Cove「别抖。放松。」</div><button id="p">▶︎ 播放结合版</button><div class="st" id="s">点一下就按顺序连着播。</div></div>
 <script>
-const SIGH='https://cdn.freesound.org/previews/799/799579_16968183-hq.mp3';
-const VOICE='https://yanyan-phone.vercel.app/api/cosy-result?voice=1';
-let current=[],busy=false;
-const $=id=>document.getElementById(id);
-function stopAll(){for(const a of current){try{a.pause()}catch{}}current=[];busy=false;$('play').textContent='▶︎ 再听一次'}
-$('play').onclick=async()=>{
- if(busy){stopAll();$('status').textContent='已停止';return}
- busy=true;$('play').textContent='■ 停止';$('status').textContent='加载中…';
- try{
-   const [vr]=await Promise.all([fetch(VOICE,{cache:'no-store'})]);
-   if(!vr.ok) throw new Error('Soft Cove '+vr.status);
-   const vb=await vr.blob();
-   if(vb.size<1000) throw new Error('Soft Cove 空音频');
-   const voiceUrl=URL.createObjectURL(vb);
-   const a=new Audio(SIGH),v=new Audio(voiceUrl);current=[a,v];a.volume=.82;v.volume=1;
-   let switched=false;
-   a.currentTime=0;
-   a.ontimeupdate=()=>{
-     if(!switched && a.currentTime>=1.5){
-       switched=true;a.pause();
-       setTimeout(()=>{if(!busy)return;$('status').textContent='Soft Cove…';v.play().catch(e=>{$('status').textContent='Cove 播放失败：'+e.message;stopAll()})},100)
-     }
-   };
-   a.onerror=()=>{$('status').textContent='喘息素材加载失败';URL.revokeObjectURL(voiceUrl);stopAll()};
-   v.onerror=()=>{$('status').textContent='Soft Cove 音频加载失败';URL.revokeObjectURL(voiceUrl);stopAll()};
-   v.onended=()=>{URL.revokeObjectURL(voiceUrl);$('status').textContent='播放完成';stopAll()};
-   await a.play();$('status').textContent='真人喘息…';
- }catch(e){$('status').textContent='加载失败：'+e.message;stopAll()}
+const BREATH='https://cdn.freesound.org/previews/799/799579_16968183-hq.mp3';
+const COVE='https://yanyan-phone.vercel.app/api/cosy-result?voice=1';
+let a,v,busy=false,vu='';
+function stop(){try{a&&a.pause()}catch{}try{v&&v.pause()}catch{}if(vu)try{URL.revokeObjectURL(vu)}catch{}a=v=null;vu='';busy=false;p.textContent='▶︎ 再听一次'}
+p.onclick=async()=>{if(busy){stop();s.textContent='已停止';return}busy=true;p.textContent='加载中…';s.textContent='正在生成 Soft Cove…';
+try{
+ const r=await fetch(COVE,{cache:'no-store'});if(!r.ok)throw new Error('Soft Cove '+r.status);
+ const blob=await r.blob();vu=URL.createObjectURL(blob);
+ a=new Audio(BREATH);v=new Audio(vu);a.volume=.78;v.volume=1;
+ a.currentTime=0;
+ a.onloadedmetadata=()=>{try{a.currentTime=.15}catch{}};
+ let moved=false;
+ a.ontimeupdate=()=>{if(!moved&&a.currentTime>=1.7){moved=true;a.pause();s.textContent='Soft Cove…';setTimeout(()=>v.play().catch(e=>{s.textContent='Cove 播放失败';stop()}),90)}};
+ a.onerror=()=>{s.textContent='喘息加载失败';stop()};
+ v.onerror=()=>{s.textContent='Soft Cove 播放失败';stop()};
+ v.onended=()=>{s.textContent='播放完成';stop()};
+ await a.play();p.textContent='■ 停止';s.textContent='真人喘息…';
+}catch(e){s.textContent='失败：'+e.message;stop()}
 };
 </script></body></html>
