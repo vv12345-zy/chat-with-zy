@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文 Cove 三版试听</title>
+<style>
+body{margin:0;background:#0f0f10;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+.wrap{width:min(92vw,560px);margin:auto;padding:28px 0 48px}.card{background:#1c1c1e;border-radius:22px;padding:22px;box-shadow:0 12px 50px #0006}
+h1{font-size:24px;margin:0 0 8px}.sub{opacity:.7;font-size:14px;line-height:1.55;margin-bottom:18px}
+button{width:100%;border:0;border-radius:999px;padding:15px 18px;font-size:16px;font-weight:700;background:#fff;color:#111;margin:7px 0}
+button.alt{background:#2c2c2e;color:#fff}.row{margin:14px 0;padding:14px;border-radius:16px;background:#252527}.row b{display:block;margin-bottom:8px}.status{font-size:13px;opacity:.75;min-height:38px;margin-top:10px;line-height:1.45}
+small{opacity:.62;line-height:1.45;display:block}
+</style>
+</head>
+<body><div class="wrap"><div class="card">
+<h1>中文 Cove · 三版</h1>
+<div class="sub">每一版都会先用英文 Cove 生成一句普通话参考，再用那句普通话重新克隆「别抖。放松。」。这样第二步不再直接从英文跨到中文。</div>
+<button id="gen">生成 3 个候选</button>
+<div id="rows"></div>
+<div class="status" id="status">生成会稍微慢一点；每版都是两步。</div>
+</div></div>
+<script>
+const SPACE='https://qwen-qwen3-tts.hf.space';
+const END='generate_voice_clone';
+const REF='https://huggingface.co/MoYoYoTech/tone-models/resolve/main/ref_audios/cove_ref.wav';
+const REF_TEXT='and he has a long career in the Senate representing Delaware. So both have had significant impacts on American politics and policies.';
+const SEEDS=[
+ '别怕，我在这里。',
+ '慢一点，听我说。',
+ '没事，放轻松。'
+];
+const TARGET='别抖。放松。';
+const $=id=>document.getElementById(id);
+
+async function call(refUrl,refText,text){
+ const ref={path:refUrl,url:refUrl,orig_name:'ref.wav',meta:{_type:'gradio.FileData'}};
+ const st=await fetch(SPACE+'/gradio_api/call/'+END,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:[ref,refText,text,'Chinese',false,'1.7B']})});
+ if(!st.ok) throw new Error('start '+st.status);
+ const q=await st.json(); if(!q.event_id) throw new Error('no event id');
+ const ev=await fetch(SPACE+'/gradio_api/call/'+END+'/'+encodeURIComponent(q.event_id));
+ const raw=await ev.text(); if(/event:\s*error/i.test(raw)) throw new Error('generation failed');
+ let payload=null;
+ for(const line of raw.split(/\r?\n/)){if(line.startsWith('data:')){try{payload=JSON.parse(line.slice(5).trim())}catch{}}}
+ const f=Array.isArray(payload)?payload[0]:null;
+ const u=f&&typeof f==='object'&&(f.url||f.path);
+ if(!u) throw new Error('no audio');
+ return /^https?:\/\//.test(u)?u:(u.startsWith('/')?SPACE+u:SPACE+'/gradio_api/file='+encodeURIComponent(u));
+}
+
+async function one(i){
+ const box=document.getElementById('r'+i),st=box.querySelector('.st'),btn=box.querySelector('button');
+ btn.disabled=true;
+ try{
+   st.textContent='第 1 步：生成中文参考「'+SEEDS[i]+'」…';
+   const zhRef=await call(REF,REF_TEXT,SEEDS[i]);
+   st.textContent='第 2 步：用中文参考重新克隆「'+TARGET+'」…';
+   const out=await call(zhRef,SEEDS[i],TARGET);
+   btn.textContent='▶︎ 播放候选 '+(i+1);
+   btn.disabled=false;
+   btn.onclick=()=>{const a=new Audio(out);a.play()};
+   st.textContent='完成。重点听中文口音自然不自然。';
+ }catch(e){
+   st.textContent='失败：'+e.message;
+   btn.disabled=false;btn.textContent='重试候选 '+(i+1);btn.onclick=()=>one(i);
+ }
+}
+function build(){
+ $('rows').innerHTML=SEEDS.map((s,i)=>`<div class="row" id="r${i}"><b>候选 ${i+1}</b><small>中文中转参考：${s}</small><button class="alt" disabled>生成中…</button><div class="st status"></div></div>`).join('');
+}
+$('gen').onclick=async()=>{
+ $('gen').disabled=true;build();$('status').textContent='开始生成。为了不把公共 GPU 挤爆，我会一版一版来。';
+ for(let i=0;i<3;i++) await one(i);
+ $('gen').disabled=false;$('status').textContent='三版都好了。你直接告诉我 1 / 2 / 3 哪个最不像外国人。';
+};
+</script></body></html>
