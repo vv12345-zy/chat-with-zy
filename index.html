@@ -8,60 +8,58 @@ body{margin:0;background:#0f0f10;color:#fff;font-family:-apple-system,BlinkMacSy
 .wrap{width:min(92vw,520px);padding:24px}.card{background:#1c1c1e;border-radius:22px;padding:22px;box-shadow:0 12px 50px #0006}
 h1{font-size:24px;margin:0 0 8px}.sub{opacity:.67;font-size:14px;line-height:1.55;margin-bottom:18px}
 button{width:100%;border:0;border-radius:999px;padding:16px 18px;font-size:17px;font-weight:700;background:#fff;color:#111;margin:8px 0}
-button.secondary{background:#2c2c2e;color:#fff}.status{font-size:13px;opacity:.76;min-height:38px;margin-top:10px;line-height:1.45}
+.status{font-size:13px;opacity:.78;min-height:38px;margin-top:10px;line-height:1.45}
 </style>
 </head>
 <body><div class="wrap"><div class="card">
-<h1>陆泽阳 · 可用试听版</h1>
-<div class="sub">先用已经确认能播的真人 sigh + 你喜欢的 Soft Cove。Soft Cove 会直接尝试备用 CosyVoice Space，不再经过 Vercel。</div>
-<button id="play">▶︎ 喘息 + Soft Cove</button>
-<button id="pix" class="secondary">打开你喜欢的 Heavy breath / Hyperventilating 原页</button>
-<div class="status" id="status">点第一个，我会自动尝试备用 CosyVoice。</div>
+<h1>陆泽阳 · 小手机当前语音试听</h1>
+<div class="sub">真人 sigh → 小手机现在正在用的 Qwen3-TTS Cove clone「别抖。放松。」</div>
+<button id="play">▶︎ 喘息 + 当前 Cove</button>
+<div class="status" id="status">这次不用 Soft CosyVoice，直接用小手机正式语音。</div>
 </div></div>
 <script>
-const sigh='https://cdn.freesound.org/previews/799/799579_16968183-hq.mp3';
-const ref='https://huggingface.co/MoYoYoTech/tone-models/resolve/main/ref_audios/cove_ref.wav';
-const spaces=[
-  'https://xiao121221-cosyvoice3.hf.space',
-  'https://funaudiollm-fun-cosyvoice3-0-5b.hf.space'
-];
-let current=[];
+const SPACE='https://qwen-qwen3-tts.hf.space';
+const ENDPOINT='generate_voice_clone';
+const REF='https://huggingface.co/MoYoYoTech/tone-models/resolve/main/ref_audios/cove_ref.wav';
+const REF_TEXT='and he has a long career in the Senate representing Delaware. So both have had significant impacts on American politics and policies.';
+const SIGH='https://cdn.freesound.org/previews/799/799579_16968183-hq.mp3';
+let audios=[],busy=false;
 const $=id=>document.getElementById(id);
-function stopAll(){current.forEach(a=>{try{a.pause()}catch{}});current=[];$('play').textContent='▶︎ 再听一次'}
-async function makeVoice(base){
-  const data=['别抖。放松。','instruct','',{path:ref,url:ref,orig_name:'cove_ref.wav',meta:{_type:'gradio.FileData'}},null,'You are a helpful assistant. Please say a sentence in a very soft voice.<|endofprompt|>',233333,false,'Zh'];
-  const st=await fetch(base+'/gradio_api/call/generate_audio',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data})});
-  if(!st.ok)throw new Error('start '+st.status);
-  const q=await st.json(); if(!q.event_id)throw new Error('no event');
-  const ev=await fetch(base+'/gradio_api/call/generate_audio/'+encodeURIComponent(q.event_id));
-  const raw=await ev.text(); if(/event:\s*error/i.test(raw))throw new Error('busy');
-  let payload=null; for(const line of raw.split(/\r?\n/)){if(line.startsWith('data:')){try{payload=JSON.parse(line.slice(5).trim())}catch{}}}
-  const f=Array.isArray(payload)?payload[0]:null; const u=f&&typeof f==='object'&&(f.url||f.path);
-  if(!u)throw new Error('no audio');
-  return /^https?:\/\//.test(u)?u:(u.startsWith('/')?base+u:base+'/gradio_api/file='+encodeURIComponent(u));
+
+function stopAll(){for(const a of audios){try{a.pause()}catch{}}audios=[];busy=false;$('play').textContent='▶︎ 再听一次'}
+
+async function qwenVoice(){
+ $('status').textContent='正在生成小手机当前 Cove…';
+ const ref={path:REF,url:REF,orig_name:'cove_ref.wav',meta:{_type:'gradio.FileData'}};
+ const st=await fetch(SPACE+'/gradio_api/call/'+ENDPOINT,{
+   method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({data:[ref,REF_TEXT,'别抖。放松。','Chinese',false,'1.7B']})
+ });
+ if(!st.ok)throw new Error('Qwen start '+st.status);
+ const q=await st.json(); if(!q.event_id)throw new Error('no event id');
+ const ev=await fetch(SPACE+'/gradio_api/call/'+ENDPOINT+'/'+encodeURIComponent(q.event_id));
+ const raw=await ev.text();
+ if(/event:\s*error/i.test(raw))throw new Error('Qwen generation failed');
+ let payload=null;
+ for(const line of raw.split(/\r?\n/)){if(line.startsWith('data:')){try{payload=JSON.parse(line.slice(5).trim())}catch{}}}
+ const f=Array.isArray(payload)?payload[0]:null;
+ const u=f&&typeof f==='object'&&(f.url||f.path);
+ if(!u)throw new Error('no audio returned');
+ return /^https?:\/\//.test(u)?u:(u.startsWith('/')?SPACE+u:SPACE+'/gradio_api/file='+encodeURIComponent(u));
 }
-async function getVoice(){
-  let err='';
-  for(const base of spaces){
-    $('status').textContent='正在尝试 Soft Cove：'+base.replace('https://','').split('.')[0]+'…';
-    try{return await makeVoice(base)}catch(e){err=e.message}
-  }
-  throw new Error(err||'Soft Cove unavailable');
-}
+
 $('play').onclick=async()=>{
-  if(current.length){stopAll();$('status').textContent='已停止';return}
-  $('play').textContent='■ 停止';
-  try{
-    const voiceUrl=await getVoice();
-    $('status').textContent='Soft Cove 已生成，开始播放…';
-    const a=new Audio(sigh),v=new Audio(voiceUrl);current=[a,v];
-    a.volume=.8;v.volume=1;
-    a.onended=()=>setTimeout(()=>v.play(),80);
-    v.onended=()=>{current=[];$('play').textContent='▶︎ 再听一次';$('status').textContent='播放完成'};
-    a.onerror=()=>{$('status').textContent='真人 sigh 加载失败';stopAll()};
-    v.onerror=()=>{$('status').textContent='Soft Cove 音频加载失败';stopAll()};
-    await a.play();
-  }catch(e){$('status').textContent='Soft Cove 还是没抢到：'+e.message;stopAll()}
+ if(busy){stopAll();$('status').textContent='已停止';return}
+ busy=true;$('play').textContent='■ 停止';
+ try{
+   const voiceUrl=await qwenVoice();
+   $('status').textContent='生成好了，开始播放…';
+   const a=new Audio(SIGH),v=new Audio(voiceUrl);audios=[a,v];a.volume=.8;v.volume=1;
+   a.onended=()=>setTimeout(()=>v.play(),80);
+   a.onerror=()=>{$('status').textContent='喘息素材加载失败';stopAll()};
+   v.onerror=()=>{$('status').textContent='当前 Cove 音频加载失败';stopAll()};
+   v.onended=()=>{$('status').textContent='播放完成';stopAll()};
+   await a.play();
+ }catch(e){$('status').textContent='生成失败：'+e.message;stopAll()}
 };
-$('pix').onclick=()=>window.open('https://pixabay.com/sound-effects/search/male-breathing/','_blank');
 </script></body></html>
