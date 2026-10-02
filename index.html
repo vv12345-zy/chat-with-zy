@@ -6,45 +6,51 @@
 <style>
 body{margin:0;background:#0f0f10;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
 .wrap{width:min(92vw,520px);padding:24px}.card{background:#1c1c1e;border-radius:22px;padding:22px;box-shadow:0 12px 50px #0006}
-h1{font-size:24px;margin:0 0 8px}.sub{opacity:.67;font-size:14px;line-height:1.55;margin-bottom:18px}
+h1{font-size:24px;margin:0 0 8px}.sub{opacity:.68;font-size:14px;line-height:1.55;margin-bottom:18px}
 button{width:100%;border:0;border-radius:999px;padding:16px 18px;font-size:17px;font-weight:700;background:#fff;color:#111;margin:8px 0}
-button.secondary{background:#2c2c2e;color:#fff}.status{font-size:13px;opacity:.7;min-height:20px;margin-top:10px}
+.status{font-size:13px;opacity:.78;min-height:38px;margin-top:10px;line-height:1.45}
 </style>
 </head>
 <body><div class="wrap"><div class="card">
-<h1>陆泽阳 · 喘息 + Soft Cove</h1>
-<div class="sub">Heavy breath male 真人喘息 → 你最开始喜欢的 Soft Cove「别抖。放松。」</div>
-<button id="heavy">▶︎ Heavy breath + Soft Cove</button>
-<button id="stu" class="secondary">▶︎ StuieStu 原页试听</button>
-<div class="status" id="status">点第一个直接听合成版。</div>
+<h1>陆泽阳 · 当前小手机语音</h1>
+<div class="sub">真人 sigh → 小手机现在用的 Qwen3-TTS Cove clone「别抖。放松。」</div>
+<button id="play">▶︎ 播放试听</button>
+<div class="status" id="status">这次已经完全不用 Soft Cove / CosyVoice。</div>
 </div></div>
 <script>
-const heavy='https://cdn.freesound.org/previews/538/538870_11658457-hq.mp3';
-const voice='https://yanyan-phone.vercel.app/api/cosy-result?voice=1';
-let a=null,v=null,timer=null,busy=false;
-function stop(){
- if(a){a.pause();a=null} if(v){v.pause();v=null} if(timer){clearTimeout(timer);timer=null}
- busy=false;document.getElementById('heavy').textContent='▶︎ Heavy breath + Soft Cove';
+const SPACE='https://qwen-qwen3-tts.hf.space';
+const REF='https://huggingface.co/MoYoYoTech/tone-models/resolve/main/ref_audios/cove_ref.wav';
+const REF_TEXT='and he has a long career in the Senate representing Delaware. So both have had significant impacts on American politics and policies.';
+const SIGH='https://cdn.freesound.org/previews/799/799579_16968183-hq.mp3';
+let current=[],busy=false;
+const $=id=>document.getElementById(id);
+function stopAll(){for(const a of current){try{a.pause()}catch{}}current=[];busy=false;$('play').textContent='▶︎ 再听一次'}
+async function makeVoice(){
+ $('status').textContent='正在生成小手机当前 Cove…';
+ const ref={path:REF,url:REF,orig_name:'cove_ref.wav',meta:{_type:'gradio.FileData'}};
+ const st=await fetch(SPACE+'/gradio_api/call/generate_voice_clone',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:[ref,REF_TEXT,'别抖。放松。','Chinese',false,'1.7B']})});
+ if(!st.ok)throw new Error('生成启动失败 '+st.status);
+ const q=await st.json();if(!q.event_id)throw new Error('没有 event id');
+ const ev=await fetch(SPACE+'/gradio_api/call/generate_voice_clone/'+encodeURIComponent(q.event_id));
+ const raw=await ev.text();if(/event:\s*error/i.test(raw))throw new Error('Qwen 生成失败');
+ let payload=null;
+ for(const line of raw.split(/\r?\n/)){if(line.startsWith('data:')){try{payload=JSON.parse(line.slice(5).trim())}catch{}}}
+ const f=Array.isArray(payload)?payload[0]:null;const u=f&&typeof f==='object'&&(f.url||f.path);
+ if(!u)throw new Error('没有返回音频');
+ return /^https?:\/\//.test(u)?u:(u.startsWith('/')?SPACE+u:SPACE+'/gradio_api/file='+encodeURIComponent(u));
 }
-document.getElementById('heavy').onclick=async()=>{
- const b=document.getElementById('heavy'),s=document.getElementById('status');
- if(busy){stop();s.textContent='已停止';return}
- busy=true;b.textContent='■ 停止';s.textContent='加载中…';
+$('play').onclick=async()=>{
+ if(busy){stopAll();$('status').textContent='已停止';return}
+ busy=true;$('play').textContent='■ 停止';
  try{
-   a=new Audio(heavy);v=new Audio(voice);a.volume=.82;v.volume=1;
-   a.currentTime=2.2;
-   let switched=false;
-   a.ontimeupdate=()=>{
-     if(!switched && a.currentTime>=4.0){
-       switched=true;a.pause();
-       setTimeout(()=>{if(!busy)return;s.textContent='Soft Cove…';v.play().catch(e=>{s.textContent='Cove 播放失败：'+e.message;stop()})},90)
-     }
-   };
-   a.onerror=()=>{s.textContent='喘息素材加载失败';stop()};
-   v.onerror=()=>{s.textContent='Soft Cove 暂时不可用';stop()};
-   v.onended=()=>{s.textContent='播放完成';stop()};
-   await a.play();s.textContent='Heavy breath male…';
- }catch(e){s.textContent='播放失败：'+e.message;stop()}
+  const voiceUrl=await makeVoice();
+  $('status').textContent='生成好了，开始播放…';
+  const a=new Audio(SIGH),v=new Audio(voiceUrl);current=[a,v];a.volume=.8;v.volume=1;
+  a.onended=()=>setTimeout(()=>v.play(),80);
+  a.onerror=()=>{$('status').textContent='喘息素材加载失败';stopAll()};
+  v.onerror=()=>{$('status').textContent='当前小手机 Cove 音频加载失败';stopAll()};
+  v.onended=()=>{$('status').textContent='播放完成';stopAll()};
+  await a.play();
+ }catch(e){$('status').textContent='生成失败：'+e.message;stopAll()}
 };
-document.getElementById('stu').onclick=()=>{window.open('https://pixabay.com/sound-effects/people-male-hyperventilating-panicked-breathing-457557/','_blank')};
 </script></body></html>
