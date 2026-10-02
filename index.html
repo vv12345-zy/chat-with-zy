@@ -21,6 +21,7 @@ button.secondary{background:#2c2c2e;color:#fff}.status{font-size:13px;opacity:.7
 <script>
 const heavy='https://cdn.freesound.org/previews/538/538870_11658457-hq.mp3';
 const voice='https://yanyan-phone.vercel.app/api/cosy-result?voice=1';
+async function getSoftCove(){let last='';for(let i=1;i<=18;i++){document.getElementById('status').textContent='正在抢 Soft Cove GPU… '+i+'/18';try{const r=await fetch(voice+'&_='+Date.now(),{cache:'no-store'});if(r.ok){const blob=await r.blob();if(blob.size>1000)return URL.createObjectURL(blob);last='空音频'}else{last='HTTP '+r.status}}catch(e){last=e.message}await new Promise(x=>setTimeout(x,1800))}throw new Error(last||'Soft Cove 暂时忙')}
 let a=null,v=null,busy=false;
 function stop(){if(a){a.pause();a=null}if(v){v.pause();v=null}busy=false;document.getElementById('heavy').textContent='▶︎ Heavy breath + Soft Cove'}
 document.getElementById('heavy').onclick=async()=>{
@@ -28,12 +29,12 @@ document.getElementById('heavy').onclick=async()=>{
  if(busy){stop();s.textContent='已停止';return}
  busy=true;b.textContent='■ 停止';s.textContent='加载中…';
  try{
-  a=new Audio(heavy);v=new Audio(voice);a.volume=.82;v.volume=1;
+  const voiceUrl=await getSoftCove();a=new Audio(heavy);v=new Audio(voiceUrl);a.volume=.82;v.volume=1;
   a.currentTime=2.2;let switched=false;
   a.ontimeupdate=()=>{if(!switched&&a.currentTime>=4.0){switched=true;a.pause();setTimeout(()=>{if(!busy)return;s.textContent='Soft Cove…';v.play().catch(e=>{s.textContent='Cove 播放失败：'+e.message;stop()})},90)}};
   a.onerror=()=>{s.textContent='喘息素材加载失败';stop()};
-  v.onerror=()=>{s.textContent='Soft Cove 暂时不可用';stop()};
-  v.onended=()=>{s.textContent='播放完成';stop()};
+  v.onerror=()=>{s.textContent='Soft Cove 播放失败';stop()};
+  v.onended=()=>{s.textContent='播放完成';try{URL.revokeObjectURL(v.src)}catch{};stop()};
   await a.play();s.textContent='Heavy breath male…';
  }catch(e){s.textContent='播放失败：'+e.message;stop()}
 };
