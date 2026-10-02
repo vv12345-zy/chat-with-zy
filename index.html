@@ -1,309 +1,41 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-<meta name="theme-color" content="#ead7df" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="燕燕的小手机" />
-<link rel="manifest" href="/manifest.webmanifest" />
-<title>燕燕的小手机</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>陆泽阳语音试听</title>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eee7e4;color:#1b1b1d}button,input,textarea,select{font:inherit}button{cursor:pointer}.stage{height:100%;display:grid;place-items:center;padding:10px}.phone{width:min(390px,100vw - 20px);height:min(844px,100vh - 20px);aspect-ratio:390/844;background:#111;border:7px solid #171517;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 25px 70px #0004}.screen{position:absolute;inset:0;overflow:hidden;background:linear-gradient(155deg,#f4cfda,#d8d0ed 55%,#c8e0e7)}.screen[data-wall="night"]{background:radial-gradient(circle at 70% 12%,#fff8 0 2px,transparent 3px),radial-gradient(circle at 25% 28%,#fff7 0 1px,transparent 2px),linear-gradient(165deg,#17192c,#30345b 55%,#684d73)}.screen[data-wall="cream"]{background:linear-gradient(155deg,#fff4de,#f4ded8 58%,#dbe6d8)}.status{height:36px;padding:9px 17px 0;display:flex;justify-content:space-between;font-size:12px;font-weight:700;position:relative;z-index:100}.screen[data-wall="night"] .status,.screen[data-wall="night"] #home{color:#fff}.island{position:absolute;top:7px;left:50%;transform:translateX(-50%);width:105px;height:26px;border-radius:18px;background:#111}.view{position:absolute;inset:36px 0 0;display:none;overflow:hidden;min-width:0;min-height:0}.view.active{display:flex;flex-direction:column}.lock{align-items:center;padding-top:55px;background:radial-gradient(circle at 50% 18%,#fff9,transparent 28%)}.lock .bigtime{font-size:72px;font-weight:250;letter-spacing:-4px}.lock .date{font-size:15px}.notification{margin-top:auto;margin-bottom:75px;width:86%;background:#ffffff80;backdrop-filter:blur(18px);border-radius:22px;padding:13px 15px}.unlock{font-size:12px;opacity:.55;text-align:center;margin-top:8px}.home{padding:15px 16px 92px;overflow:auto}.widget{background:#ffffff75;backdrop-filter:blur(18px);border-radius:23px;padding:16px;margin-bottom:18px}.widget b{font-size:19px}.widget small{display:block;margin-top:5px;opacity:.65}.apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 11px}.app{text-align:center;font-size:10.5px;min-width:0}.icon{width:56px;height:56px;border-radius:16px;margin:0 auto 5px;display:grid;place-items:center;font-size:27px;background:#fff;box-shadow:0 4px 13px #765d6a22}.wechat{background:#21c65a}.insta{background:linear-gradient(135deg,#6646e8,#e94185,#f8ad35);color:#fff}.musicIcon{background:#fb4a70;color:#fff}.notesIcon{background:#fff2a8}.dock{position:absolute;bottom:12px;left:14px;right:14px;height:74px;border-radius:26px;background:#ffffff78;backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:space-around;z-index:5}.dock .icon{margin:0;width:54px;height:54px}.appView{background:#f3f3f5;color:#1b1b1d}.appbar{height:50px;flex:0 0 50px;display:flex;align-items:center;padding:0 11px;gap:8px;background:#fff;border-bottom:1px solid #dedee2;min-width:0}.appbar .title{font-weight:750;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.appbar .side{width:64px;display:flex;align-items:center}.appbar .right{justify-content:flex-end}.backBtn,.ghostBtn{border:0;background:transparent;padding:8px;font-size:24px;line-height:1}.ghostBtn{font-size:14px}.scroll{flex:1;min-height:0;min-width:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:12px}.tabs{height:48px;flex:0 0 48px;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;text-align:center;font-size:11px}.tabs button{border:0;background:transparent;height:100%}.chatrow{display:flex;gap:11px;align-items:center;padding:12px 14px;background:#fff;border-bottom:1px solid #ededed}.avatar{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#32384d,#a28190);color:#fff;font-weight:800;flex:0 0 auto}.avatar.pooh{background:#d6a86e;color:#4d2b13}.rowMain{flex:1;min-width:0}.rowMain b,.rowMain small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rowMain small{color:#8a8a8e;margin-top:3px}.badge{font-size:10px;padding:2px 6px;border-radius:10px;background:#ececf1;color:#666}.chatBody{flex:1;min-height:0;overflow:auto;padding:12px;background:#ededed}.bubble{max-width:79%;padding:9px 12px;margin:8px 0;border-radius:12px;line-height:1.42;white-space:pre-wrap;word-break:break-word}.bubble.them{background:#fff}.bubble.me{background:#95ec69;margin-left:auto}.chatMeta{text-align:center;color:#999;font-size:10px;margin:5px}.typing{font-size:11px;color:#777;padding:5px 12px}.composer{height:58px;flex:0 0 58px;display:flex;gap:6px;align-items:center;background:#fafafa;padding:8px;border-top:1px solid #ddd}.composer input{flex:1;min-width:0;border:1px solid #e4e4e6;border-radius:10px;padding:9px 10px;background:#fff}.composer button,.btn{border:0;border-radius:10px;background:#202124;color:#fff;padding:9px 12px}.btn.secondary{background:#e8e8ec;color:#222}.btn.danger{background:#b92323}.toolrow{display:flex;gap:7px;margin-bottom:10px}.toolrow input,.toolrow textarea{flex:1;min-width:0;border:1px solid #ddd;border-radius:10px;padding:9px;background:#fff}.card{background:#fff;border-radius:15px;padding:13px;margin-bottom:10px}.moment{display:grid;grid-template-columns:44px 1fr;gap:10px}.momentBody{min-width:0}.momentText{white-space:pre-wrap;word-break:break-word;margin:6px 0}.momentActions{display:flex;gap:12px;align-items:center;font-size:12px;color:#4a5f86}.momentActions button{border:0;background:transparent;color:inherit;padding:4px 0}.comments{margin-top:7px;background:#f4f4f6;border-radius:9px;padding:7px 9px;font-size:12px}.commentLine{margin:3px 0}.commentBox{display:flex;gap:5px;margin-top:7px}.commentBox input{flex:1;min-width:0;border:1px solid #ddd;border-radius:8px;padding:7px}.commentBox button{border:0;border-radius:8px;padding:6px 9px}.settingsGroup{border-radius:14px;overflow:hidden;margin-bottom:12px;background:#fff}.setting{min-height:48px;padding:11px 13px;border-bottom:1px solid #ededed;display:flex;gap:10px;align-items:center;justify-content:space-between}.setting:last-child{border-bottom:0}.setting input,.setting select{max-width:52%;border:1px solid #ddd;border-radius:8px;padding:7px}.tiny{font-size:11px;color:#777;line-height:1.4}.apiForm label{font-size:12px;font-weight:700}.apiForm input,.apiForm textarea,.apiForm select{width:100%;border:1px solid #d8d8dc;border-radius:10px;padding:9px;margin:5px 0 11px;background:#fff}.apiForm textarea{height:95px;resize:vertical}.statusBox{font-size:11px;border-radius:10px;padding:9px;background:#f2f2f4;white-space:pre-wrap;word-break:break-word}.calendarHead{display:grid;grid-template-columns:repeat(7,1fr);font-size:10px;color:#777;text-align:center;margin-bottom:5px}.calendarGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.calDay{aspect-ratio:1;border:0;border-radius:9px;background:#fff;font-size:11px;position:relative}.calDay.blank{visibility:hidden}.calDay.today{outline:2px solid #222;font-weight:800}.calDay.has::after{content:"";width:4px;height:4px;border-radius:50%;background:#ef5a70;position:absolute;bottom:4px;left:50%;transform:translateX(-50%)}.cameraStage{flex:1;min-height:0;background:#0d0d0e;position:relative;display:grid;place-items:center;overflow:hidden}.cameraStage video{width:100%;height:100%;object-fit:cover}.cameraDiag{position:absolute;inset:10px;display:flex;align-items:center;justify-content:center;pointer-events:none}.diagCard{pointer-events:auto;background:#111c;color:#fff;border-radius:15px;padding:12px;max-width:94%;font-size:11px;line-height:1.5}.shutterbar{height:104px;flex:0 0 104px;background:#090909;display:flex;align-items:center;justify-content:space-around}.shutter{width:66px;height:66px;border-radius:50%;border:6px solid #fff;background:#d9d9d9}.camBtn{width:48px;height:48px;border:0;border-radius:12px;background:#29292c;color:#fff}.photoGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.photo{aspect-ratio:1;background:#ddd;overflow:hidden;position:relative}.photo img{width:100%;height:100%;object-fit:cover}.photoDel{position:absolute;top:3px;right:3px;border:0;border-radius:50%;background:#0009;color:#fff;width:22px;height:22px}.notesList .note{background:#fff;padding:12px;border-bottom:1px solid #eee}.notesList .note:first-child{border-radius:14px 14px 0 0}.notesList .note:last-child{border-radius:0 0 14px 14px}.noteEditor{width:100%;height:100%;border:0;outline:0;resize:none;background:#fffdf1;padding:16px;font-size:15px;line-height:1.5}.player{text-align:center}.album{width:190px;height:190px;border-radius:25px;margin:15px auto;background:linear-gradient(145deg,#26232b,#b98ca0);display:grid;place-items:center;font-size:58px}.range{width:90%}.controls{display:flex;justify-content:center;gap:30px;align-items:center;margin:15px}.controls button{border:0;background:transparent;font-size:30px}.playlist{overflow:hidden;border-radius:14px;background:#fff}.track{padding:11px;border-bottom:1px solid #eee}.igStories{display:flex;gap:10px;overflow:auto;background:#fff;padding:10px}.igStory{min-width:58px;text-align:center;font-size:10px}.storyRing{width:52px;height:52px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#ffc13c,#e93e83,#7146eb);margin:auto auto 4px}.storyRing>div{width:100%;height:100%;border-radius:50%;background:#fff;display:grid;place-items:center}.igPost{background:#fff;margin-bottom:9px}.igPostHead{display:flex;gap:8px;align-items:center;padding:9px}.igMedia{aspect-ratio:1;background:linear-gradient(135deg,#efcad5,#ccc9e8);display:grid;place-items:center;font-size:55px}.igActions{padding:10px}.igActions button{border:0;background:transparent;font-size:18px}.igProfile{text-align:center;background:#fff;padding:14px}.igStats{display:flex;justify-content:space-around;margin:11px 0}.igGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.igCell{aspect-ratio:1;background:linear-gradient(145deg,#efc9d3,#c9c7e5);display:grid;place-items:center;font-size:27px}.calcDisplay{margin:14px;background:#121214;color:#fff;border-radius:14px;padding:15px;min-height:64px;text-align:right;font-size:27px;overflow:hidden}.calcGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:0 14px 14px}.calcGrid button{height:54px;border:0;border-radius:14px;font-size:18px}.browserbar{display:flex;gap:6px;padding:8px;background:#e8e8eb}.browserbar input{flex:1;min-width:0;border:0;border-radius:10px;padding:9px}.mailrow{background:#fff;border-bottom:1px solid #eee;padding:11px}.toast{position:absolute;z-index:999;left:50%;bottom:95px;transform:translateX(-50%);background:#111e;color:#fff;border-radius:18px;padding:9px 13px;font-size:12px;max-width:80%;text-align:center;display:none}.hidden{display:none!important}
-
-/* V6 Instagram + camera + Gemini polish */
-.igShell{background:#fff}.igTop{height:50px;flex:0 0 50px;display:flex;align-items:center;padding:0 10px;border-bottom:1px solid #eee;background:#fff}.igBrand{font-family:Georgia,serif;font-style:italic;font-weight:800;font-size:22px;flex:1;text-align:center}.igTop button{border:0;background:transparent;font-size:19px;padding:7px}.igViewport{flex:1;min-height:0;overflow:auto;background:#fafafa}.igPanel{display:none}.igPanel.active{display:block}.igNav{height:50px;flex:0 0 50px;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #e8e8e8;background:#fff}.igNav button{border:0;background:#fff;font-size:21px}.igNav button.active{font-weight:900}.igStories{display:flex;gap:11px;overflow-x:auto;background:#fff;padding:10px 10px 9px;border-bottom:1px solid #eee}.igStory{min-width:61px;max-width:61px;text-align:center;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.storyRing{width:56px;height:56px}.igPost{background:#fff;margin-bottom:10px;border-bottom:1px solid #eee}.igPostHead{display:flex;gap:9px;align-items:center;padding:9px 10px}.igPostHead .meta{flex:1;min-width:0}.igPostHead .meta b,.igPostHead .meta small{display:block}.igPostHead .meta small{font-size:10px;color:#777}.igPostMedia{width:100%;aspect-ratio:1/1;display:grid;place-items:center;background:linear-gradient(140deg,#edd8df,#d8d6ee);overflow:hidden;font-size:64px}.igPostMedia img{width:100%;height:100%;object-fit:cover}.igPostBtns{display:flex;align-items:center;padding:8px 9px 2px;gap:10px}.igPostBtns button{border:0;background:transparent;font-size:22px;padding:2px}.igPostBtns .save{margin-left:auto}.igCaption{padding:0 11px 11px;font-size:12px;line-height:1.4}.igCaption .likes{font-weight:750;margin:4px 0}.igCaption .muted{color:#777}.igCommentList{margin-top:5px}.igCommentForm{display:flex;gap:5px;margin-top:7px}.igCommentForm input{flex:1;min-width:0;border:1px solid #ddd;border-radius:10px;padding:7px}.igCommentForm button{border:0;background:transparent;color:#3b75c3;font-weight:700}.igExploreSearch{padding:10px;background:#fff;position:sticky;top:0;z-index:2}.igExploreSearch input{width:100%;border:0;background:#efeff1;border-radius:10px;padding:9px}.igExploreGrid,.igProfileGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.igExploreCell,.igProfileCell{aspect-ratio:1;display:grid;place-items:center;background:#ddd;overflow:hidden;font-size:34px}.igExploreCell img,.igProfileCell img{width:100%;height:100%;object-fit:cover}.igProfileHead{background:#fff;padding:14px 13px}.igProfileRow{display:flex;align-items:center;gap:12px}.igProfileAvatar{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#e8ced7,#cfc8e7);font-size:27px}.igProfileStats{display:grid;grid-template-columns:repeat(3,1fr);flex:1;text-align:center;font-size:11px}.igProfileStats b{font-size:16px;display:block}.igBio{font-size:12px;line-height:1.4;margin-top:10px}.igEdit{width:100%;margin-top:9px;border:1px solid #ddd;background:#fff;border-radius:8px;padding:7px;font-weight:700}.igReel{height:520px;max-height:calc(100vh - 170px);background:#151515;color:#fff;margin-bottom:2px;position:relative;display:grid;place-items:center;font-size:58px}.igReel .reelCaption{position:absolute;left:12px;right:55px;bottom:14px;font-size:12px}.igReel .reelActions{position:absolute;right:8px;bottom:18px;display:grid;gap:14px}.igReel .reelActions button{border:0;background:transparent;color:#fff;font-size:22px}.igCreatePreview{aspect-ratio:1;background:#ececf0;border-radius:14px;display:grid;place-items:center;overflow:hidden;font-size:50px;margin-bottom:10px}.igCreatePreview img{width:100%;height:100%;object-fit:cover}.storyView{background:#111;color:#fff}.storyCanvas{flex:1;min-height:0;display:grid;place-items:center;background:linear-gradient(145deg,#4b3b60,#b07b8a);padding:28px;text-align:center;font-size:22px;line-height:1.4;position:relative}.storyCanvas .storyWho{position:absolute;top:14px;left:14px;font-size:13px;font-weight:700}.storyCanvas img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.storyCanvas .storyOverlayText{position:relative;z-index:2;text-shadow:0 2px 8px #0009}.igDmComposer{height:56px;display:flex;gap:6px;align-items:center;padding:7px;background:#fff;border-top:1px solid #eee}.igDmComposer input{flex:1;min-width:0;border:1px solid #ddd;border-radius:18px;padding:9px 12px}.igDmComposer button{border:0;background:transparent;color:#3586df;font-weight:700}.camHelpBtns{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.camHelpBtns button{border:0;border-radius:9px;padding:7px 9px;background:#fff;color:#111}.apiPill{display:inline-block;padding:3px 7px;border-radius:999px;background:#e8f0fe;color:#2455a6;font-size:10px;margin-bottom:8px}.hidden{display:none!important}
-
+body{margin:0;background:#0f0f10;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.wrap{width:min(92vw,520px);padding:24px}.card{background:#1c1c1e;border-radius:22px;padding:22px;box-shadow:0 12px 50px #0006}
+h1{font-size:24px;margin:0 0 8px}.sub{opacity:.67;font-size:14px;line-height:1.55;margin-bottom:18px}
+button{width:100%;border:0;border-radius:999px;padding:16px 18px;font-size:17px;font-weight:700;background:#fff;color:#111;margin:8px 0}
+button.secondary{background:#2c2c2e;color:#fff}.status{font-size:13px;opacity:.7;min-height:20px;margin-top:10px}
 </style>
 </head>
-<body>
-<div class="stage"><div class="phone"><div class="screen" id="screen" data-wall="pink">
-  <div class="status"><span id="statusTime">20:26</span><div class="island"></div><span>●●● 100%</span></div>
-
-  <section class="view lock active" id="lock">
-    <div class="date" id="lockDate"></div><div class="bigtime" id="lockTime"></div>
-    <div class="notification" id="lockNotice"><b>陆泽阳</b><br><span class="tiny">点一下进入燕燕的小手机</span><div class="unlock">轻点任意位置解锁</div></div>
-  </section>
-
-  <section class="view home" id="home">
-    <div class="widget"><b id="homeTitle">燕燕的小手机 🐈‍⬛</b><small>starry wish · Z205</small></div>
-    <div class="apps">
-      <div class="app" data-open="wechat"><div class="icon wechat">💬</div>微信</div>
-      <div class="app" data-open="instagram"><div class="icon insta">◎</div>Instagram</div>
-      <div class="app" data-action="camera"><div class="icon">📷</div>相机</div>
-      <div class="app" data-open="photos"><div class="icon">🌈</div>相册</div>
-      <div class="app" data-open="notes"><div class="icon notesIcon">📝</div>备忘录</div>
-      <div class="app" data-open="music"><div class="icon musicIcon">♫</div>音乐</div>
-      <div class="app" data-open="calendar"><div class="icon">📅</div>日历</div>
-      <div class="app" data-open="calculator"><div class="icon">🧮</div>计算器</div>
-    </div>
-    <div class="dock">
-      <div class="app" data-open="browser"><div class="icon">🧭</div></div>
-      <div class="app" data-open="mail"><div class="icon">✉️</div></div>
-      <div class="app" data-open="settings"><div class="icon">⚙️</div></div>
-      <div class="app" data-open="secret"><div class="icon">🔐</div></div>
-    </div>
-  </section>
-
-  <section class="view appView" id="wechat">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">微信</div><div class="side right"></div></div>
-    <div class="scroll" style="padding:0">
-      <div class="chatrow" data-chat="zeyang"><div class="avatar">陆</div><div class="rowMain"><b>陆泽阳</b><small id="zyPreview">AI 独立聊天</small></div><span class="badge">AI</span></div>
-      <div class="chatrow" data-chat="pooh"><div class="avatar pooh">🐻</div><div class="rowMain"><b>Pooh Pooh</b><small id="poohPreview">It · 独立聊天</small></div><span class="badge">AI</span></div>
-    </div>
-    <div class="tabs"><button data-open="wechat">💬<br>聊天</button><button data-open="contacts">👥<br>联系人</button><button data-open="moments">🌿<br>朋友圈</button></div>
-  </section>
-
-  <section class="view appView" id="contacts">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">联系人</div><div class="side right"></div></div>
-    <div class="scroll">
-      <div class="card chatrow" data-chat="zeyang"><div class="avatar">陆</div><div class="rowMain"><b>陆泽阳</b><small>独立 AI persona · 独立聊天记录</small></div></div>
-      <div class="card chatrow" data-chat="pooh"><div class="avatar pooh">🐻</div><div class="rowMain"><b>Pooh Pooh</b><small>It · 独立 AI persona · 独立聊天记录</small></div></div>
-      <div class="card"><b>其他联系人</b><div class="tiny" style="margin-top:7px">妈妈 · Lab · Friends（可在以后版本继续加入独立聊天）</div></div>
-    </div>
-  </section>
-
-  <section class="view appView" id="chat">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title" id="chatTitle">聊天</div><div class="side right"><button class="ghostBtn" data-open="apiSettings">AI</button></div></div>
-    <div class="chatBody" id="chatBody"></div>
-    <div class="typing hidden" id="typing">正在调用 AI…</div>
-    <div class="composer"><button class="ghostBtn" id="chatPhotoBtn">＋</button><input id="chatInput" placeholder="输入消息…" autocomplete="off"><button id="sendBtn">发送</button></div>
-  </section>
-
-  <section class="view appView" id="moments">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">朋友圈</div><div class="side right"><button class="ghostBtn" id="aiMomentNow">AI发</button></div></div>
-    <div class="scroll">
-      <div class="card"><div class="toolrow"><textarea id="momentText" rows="2" placeholder="发一条朋友圈…"></textarea></div><button class="btn" id="postMoment">发布</button></div>
-      <div id="momentsList"></div>
-    </div>
-  </section>
-
-  <section class="view appView" id="apiSettings">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">Gemini API</div><div class="side right"></div></div>
-    <div class="scroll apiForm">
-      <div class="card tiny"><span class="apiPill">Google Gemini</span><br>网站版通过 Vercel 服务器安全调用 Gemini。API key 保存在服务器环境变量，不会出现在网页源码或浏览器 localStorage。</div>
-      <label>Model</label><input id="apiModel" value="gemini-3.8-flash" placeholder="例如 gemini-3.8-flash">
-      <label>陆泽阳 System Prompt</label><textarea id="zyPrompt" placeholder="完全由你填写陆泽阳的人设；聊天、朋友圈和 Instagram 都会使用这个身份"></textarea>
-      <label>Pooh Pooh System Prompt</label><textarea id="poohPrompt" placeholder="完全由你填写 Pooh Pooh / It 的人设"></textarea>
-      <div class="settingsGroup">
-        <div class="setting"><span>AI 自动朋友圈<div class="tiny">仅网页打开期间运行</div></span><input type="checkbox" id="autoMoments"></div>
-        <div class="setting"><span>AI 自动 Instagram<div class="tiny">陆泽阳 / Pooh Pooh 偶尔自己发帖</div></span><input type="checkbox" id="autoInstagram"></div>
-        <div class="setting"><span>大约间隔</span><select id="momentInterval"><option value="5">5分钟</option><option value="15">15分钟</option><option value="30">30分钟</option></select></div>
-      </div>
-      <div class="toolrow"><button class="btn" id="saveApi">保存</button><button class="btn secondary" id="testApi">测试</button><button class="btn danger" id="clearApi">清除</button></div>
-      <div class="statusBox" id="apiStatus">尚未测试。</div>
-    </div>
-  </section>
-
-  <section class="view appView" id="camera">
-    <div class="appbar" style="background:#111;color:#fff;border:0"><div class="side"><button class="backBtn" style="color:#fff" data-back>‹</button></div><div class="title">相机</div><div class="side right"><button class="ghostBtn" style="color:#fff" id="diagBtn">诊断</button></div></div>
-    <div class="cameraStage"><video id="cameraVideo" autoplay playsinline muted></video><div class="cameraDiag" id="cameraDiag"><div class="diagCard"><div id="diagText">点下方“开启”请求摄像头权限。</div><div class="camHelpBtns"><button id="cameraRetry">重新请求</button><button id="cameraPick">系统拍照/选图</button><button id="cameraReload">刷新后重试</button></div></div></div></div>
-    <div class="shutterbar"><button class="camBtn" id="photoFallback">相册</button><button class="shutter" id="shutter"></button><button class="camBtn" id="cameraStart">开启</button></div>
-    <input id="filePhoto" type="file" accept="image/*" capture="environment" hidden>
-  </section>
-
-  <section class="view appView" id="photos">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">相册</div><div class="side right"><button class="ghostBtn" id="importPhoto">导入</button></div></div>
-    <div class="scroll"><div class="tiny" id="photoCount"></div><div class="photoGrid" id="photoGrid"></div></div>
-    <input id="photoImportInput" type="file" accept="image/*" multiple hidden>
-  </section>
-
-  <section class="view appView" id="notes">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">备忘录</div><div class="side right"><button class="ghostBtn" id="newNote">＋</button></div></div>
-    <div class="scroll"><div class="toolrow"><input id="noteSearch" placeholder="搜索备忘录"></div><div class="notesList" id="notesList"></div></div>
-  </section>
-
-  <section class="view appView" id="noteEditor">
-    <div class="appbar"><div class="side"><button class="backBtn" id="saveNoteBack">‹</button></div><div class="title" id="noteTitle">备忘录</div><div class="side right"><button class="ghostBtn" id="deleteNote">删除</button></div></div>
-    <textarea class="noteEditor" id="noteBody" placeholder="写点什么…"></textarea>
-  </section>
-
-  <section class="view appView" id="music">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">音乐</div><div class="side right"><button class="ghostBtn" id="importMusic">导入</button></div></div>
-    <div class="scroll player"><div class="album">♫</div><b id="trackName">没有歌曲</b><div class="tiny" id="trackMeta">导入本地 mp3 / m4a / wav</div><input class="range" id="seek" type="range" min="0" max="100" value="0"><div class="controls"><button id="prevTrack">⏮</button><button id="playPause">▶️</button><button id="nextTrack">⏭</button></div><div class="playlist" id="playlist"></div></div>
-    <input id="musicInput" type="file" accept="audio/*" multiple hidden><audio id="audio"></audio>
-  </section>
-
-  <section class="view appView" id="calendar">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title" id="calTitle">日历</div><div class="side right"></div></div>
-    <div class="scroll"><div class="calendarHead"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div><div class="calendarGrid" id="calendarGrid"></div><div class="card" style="margin-top:10px"><b id="selectedDateLabel">选择日期</b><div class="toolrow" style="margin-top:8px"><input id="eventInput" placeholder="添加事件"><button class="btn" id="addEvent">添加</button></div><div id="eventList"></div></div></div>
-  </section>
-
-  <section class="view appView" id="calculator">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">计算器</div><div class="side right"></div></div>
-    <div class="scroll"><div class="calcDisplay" id="calcDisplay">0</div><div class="calcGrid" id="calcGrid"></div></div>
-  </section>
-
-  <section class="view appView igShell" id="instagram">
-    <div class="igTop"><button data-back>‹</button><div class="igBrand">Instagram</div><button id="igCreateBtn">＋</button><button data-open="igNotifications">♡</button><button data-open="igDM">✉</button></div>
-    <div class="igViewport">
-      <div class="igPanel active" id="igPanelHome"><div class="igStories" id="igStories"></div><div id="igFeed"></div></div>
-      <div class="igPanel" id="igPanelExplore"><div class="igExploreSearch"><input id="igSearch" placeholder="搜索"></div><div class="igExploreGrid" id="igExploreGrid"></div></div>
-      <div class="igPanel" id="igPanelReels"><div id="igReels"></div></div>
-      <div class="igPanel" id="igPanelProfile"><div class="igProfileHead" id="igProfileHead"></div><div class="igProfileGrid" id="igProfileGrid"></div></div>
-    </div>
-    <div class="igNav"><button class="active" data-ig-tab="Home">⌂</button><button data-ig-tab="Explore">⌕</button><button data-ig-tab="Reels">▶</button><button data-ig-tab="Profile">◎</button></div>
-  </section>
-
-  <section class="view appView" id="igCreate">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">新帖子</div><div class="side right"><button class="ghostBtn" id="igPublish">分享</button></div></div>
-    <div class="scroll"><div class="igCreatePreview" id="igCreatePreview">＋</div><button class="btn secondary" id="igChooseImage">选择照片</button><textarea id="igCaptionInput" style="width:100%;height:110px;margin-top:10px;border:1px solid #ddd;border-radius:12px;padding:10px" placeholder="写下说明文字…"></textarea><div class="tiny" style="margin-top:8px">图片会保存在这个浏览器本地。较大的原图可能触及 localStorage 容量限制。</div></div>
-    <input id="igImageInput" type="file" accept="image/*" hidden>
-  </section>
-
-
-  <section class="view appView" id="igEditProfile">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">编辑个人资料</div><div class="side right"><button class="ghostBtn" id="igProfileSave">完成</button></div></div>
-    <div class="scroll apiForm"><div class="card" style="text-align:center"><div class="igProfileAvatar" style="margin:auto">🐈</div></div><label>用户名</label><input id="igProfileUsername" maxlength="30"><label>简介</label><textarea id="igProfileBio" style="height:120px"></textarea><div class="tiny">只会改变这台小手机里的 Instagram 资料。</div></div>
-  </section>
-
-  <section class="view storyView" id="igStoryView">
-    <div class="appbar" style="background:#111;color:#fff;border:0"><div class="side"><button class="backBtn" style="color:#fff" data-back>×</button></div><div class="title">快拍</div><div class="side right"></div></div>
-    <div class="storyCanvas" id="igStoryCanvas"></div>
-  </section>
-
-  <section class="view appView" id="igNotifications">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">通知</div><div class="side right"></div></div>
-    <div class="scroll" id="igNotificationList"></div>
-  </section>
-
-  <section class="view appView" id="igDM">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">消息</div><div class="side right"></div></div>
-    <div class="scroll" style="padding:0"><div class="chatrow" data-igchat="zeyang"><div class="avatar">陆</div><div class="rowMain"><b>zeyang</b><small id="igDmPrevZ">Instagram 私信</small></div><span>›</span></div><div class="chatrow" data-igchat="pooh"><div class="avatar pooh">🐻</div><div class="rowMain"><b>poohpooh</b><small id="igDmPrevP">Instagram 私信</small></div><span>›</span></div></div>
-  </section>
-
-  <section class="view appView" id="igChat">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title" id="igChatTitle">Instagram</div><div class="side right"></div></div>
-    <div class="chatBody" id="igChatBody" style="background:#fff"></div><div class="typing hidden" id="igTyping">Gemini 正在回复…</div><div class="igDmComposer"><input id="igChatInput" placeholder="发消息…"><button id="igSendBtn">发送</button></div>
-  </section>
-
-  <section class="view appView" id="browser">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">Safari</div><div class="side right"></div></div>
-    <div class="browserbar"><input id="browserInput" placeholder="搜索或输入网址"><button class="btn" id="browserGo">前往</button></div><div class="scroll"><div class="card"><b>小手机浏览器</b><div class="tiny">搜索会在新标签页打开。浏览器安全限制不允许任意网站嵌入这个本地手机框。</div></div></div>
-  </section>
-
-  <section class="view appView" id="mail">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">邮件</div><div class="side right"></div></div>
-    <div class="scroll" style="padding:0"><div class="mailrow"><b>MGVI</b><div class="tiny">Attachment / internship memories</div></div><div class="mailrow"><b>PNB</b><div class="tiny">Scholarship ✦</div></div><div class="mailrow"><b>小手机系统</b><div class="tiny">欢迎回来，燕燕。</div></div></div>
-  </section>
-
-  <section class="view appView" id="settings">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">设置</div><div class="side right"></div></div>
-    <div class="scroll"><div class="settingsGroup"><div class="setting"><span>设备名称</span><input id="deviceName" value="燕燕的小手机"></div><div class="setting"><span>壁纸</span><select id="wallpaper"><option value="pink">粉紫</option><option value="night">星夜</option><option value="cream">奶油</option></select></div></div><div class="settingsGroup"><div class="setting" data-open="apiSettings"><span>🤖 Gemini API<div class="tiny">陆泽阳 / Pooh Pooh 独立人设</div></span><span>›</span></div><div class="setting" id="exportData"><span>导出本地数据</span><span>›</span></div><div class="setting" id="importData"><span>导入本地数据</span><span>›</span></div><div class="setting" id="resetData"><span style="color:#b92323">清除所有本地数据</span><span>›</span></div></div><div class="card tiny">所有设置和聊天只保存在这个浏览器。相机若要真正启用，请通过 localhost 或 HTTPS 打开。</div></div>
-    <input type="file" id="importDataInput" accept="application/json" hidden>
-  </section>
-
-  <section class="view appView" id="secret">
-    <div class="appbar"><div class="side"><button class="backBtn" data-back>‹</button></div><div class="title">秘密空间</div><div class="side right"></div></div>
-    <div class="scroll" style="text-align:center;padding-top:70px"><div class="card"><input id="secretCode" placeholder="暗号" style="width:75%;padding:10px;border:1px solid #ddd;border-radius:10px;text-align:center"><button class="btn" id="secretOpen" style="margin-top:10px">打开</button><div id="secretResult" style="margin-top:15px"></div></div></div>
-  </section>
-
-  <div class="toast" id="toast"></div>
-  <canvas id="cameraCanvas" hidden></canvas>
-</div></div></div>
+<body><div class="wrap"><div class="card">
+<h1>陆泽阳 · 喘息 + Soft Cove</h1>
+<div class="sub">Heavy breath male 真人喘息 → Soft Cove「别抖。放松。」</div>
+<button id="heavy">▶︎ Heavy breath + Soft Cove</button>
+<button id="stu" class="secondary">▶︎ StuieStu 原页试听</button>
+<div class="status" id="status">点第一个直接听合成版。</div>
+</div></div>
 <script>
-(()=>{
-'use strict';
-const $=id=>document.getElementById(id), $$=sel=>[...document.querySelectorAll(sel)];
-const store=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const load=(k,d)=>{try{const x=localStorage.getItem(k);return x===null?d:JSON.parse(x)}catch{return d}};
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':'&quot;'}[c]));
-let navStack=['lock'], currentView='lock', currentChat=null, currentIgChat=null, cameraStream=null, selectedDate=null, currentNoteId=null, autoMomentTimer=null, autoIGTimer=null, igDraftImage='';
-const contacts={zeyang:{name:'陆泽阳',avatar:'陆',promptKey:'zyPrompt'},pooh:{name:'Pooh Pooh',avatar:'🐻',promptKey:'poohPrompt'}};
-
-function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(t._x);t._x=setTimeout(()=>t.style.display='none',2200)}
-function view(id,push=true){if(!$(id))return toast('页面不存在：'+id); if(currentView==='camera'&&id!=='camera')stopCamera(); $$('.view').forEach(v=>v.classList.remove('active')); $(id).classList.add('active'); if(push&&currentView!==id){navStack.push(id)} currentView=id; if(id==='moments')renderMoments(); if(id==='photos')renderPhotos(); if(id==='notes')renderNotes(); if(id==='calendar')renderCalendar(); if(id==='instagram')renderInstagram(); if(id==='igDM')renderIgDmPreviews(); if(id==='igNotifications')renderIgNotifications(); if(id==='settings')renderSettings(); if(id==='apiSettings')renderApi(); }
-function back(){if(navStack.length>1)navStack.pop(); const id=navStack[navStack.length-1]||'home'; view(id,false)}
-function home(){navStack=['home'];view('home',false)}
-function tick(){const d=new Date();const tm=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});$('statusTime').textContent=tm;$('lockTime').textContent=tm;$('lockDate').textContent=d.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'});}tick();setInterval(tick,30000);
-$('lock').addEventListener('click',home);
-
-document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){view(o.dataset.open);return}const b=e.target.closest('[data-back]');if(b){back();return}const c=e.target.closest('[data-chat]');if(c){openChat(c.dataset.chat);return}const ic=e.target.closest('[data-igchat]');if(ic){openIgChat(ic.dataset.igchat);return}const a=e.target.closest('[data-action="camera"]');if(a){view('camera');runCameraDiagnostics(false);return}});
-
-function chatKey(k){return 'v6_chat_'+k} function getChat(k){return load(chatKey(k),[])}
-function openChat(k){if(!contacts[k])return; currentChat=k; $('chatTitle').textContent=contacts[k].name; renderChat(); view('chat');}
-function renderChat(){if(!currentChat)return;const arr=getChat(currentChat);$('chatBody').innerHTML=arr.length?arr.map(m=>m.role==='system'?`<div class="chatMeta">${esc(m.content)}</div>`:`<div class="bubble ${m.role==='user'?'me':'them'}">${esc(m.content)}</div>`).join(''):`<div class="card tiny">这是 <b>${esc(contacts[currentChat].name)}</b> 的独立聊天空间。${getAPI().key?'已连接你的 API。':'尚未配置 API；你发送的消息会保存，但 AI 不会生成任何默认回复。'}</div>`;$('chatBody').scrollTop=$('chatBody').scrollHeight;updatePreviews()}
-function updatePreviews(){for(const k of ['zeyang','pooh']){const a=getChat(k).filter(x=>x.role!=='system');const last=a.at(-1);const el=$(k==='zeyang'?'zyPreview':'poohPreview');if(el)el.textContent=last?last.content.slice(0,28):(k==='zeyang'?'AI 独立聊天':'It · 独立聊天')}}
-async function sendChat(){if(!currentChat)return;const v=$('chatInput').value.trim();if(!v)return;let arr=getChat(currentChat);arr.push({role:'user',content:v,time:Date.now()});store(chatKey(currentChat),arr);$('chatInput').value='';renderChat();const api=getAPI();if(!api.model){toast('先去 设置 → Gemini API 配置');return}$('typing').classList.remove('hidden');try{const history=arr.filter(x=>x.role==='user'||x.role==='assistant').slice(-24).map(x=>({role:x.role,content:x.content}));const sys=currentChat==='zeyang'?api.zyPrompt:api.poohPrompt;const out=await aiCall(history,sys);arr=getChat(currentChat);arr.push({role:'assistant',content:out,time:Date.now()});store(chatKey(currentChat),arr);renderChat()}catch(err){toast('AI 请求失败');arr=getChat(currentChat);arr.push({role:'system',content:'API 错误：'+err.message,time:Date.now()});store(chatKey(currentChat),arr);renderChat()}finally{$('typing').classList.add('hidden')}}
-$('sendBtn').onclick=sendChat;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});$('chatPhotoBtn').onclick=()=>{view('photos');toast('可先从相册查看/导入照片')};
-
-function getAPI(){return load('v6_api',{model:'gemini-3.8-flash',zyPrompt:'',poohPrompt:'',autoMoments:false,autoInstagram:false,interval:15})}
-function renderApi(){const a=getAPI();$('apiModel').value=a.model||'gemini-3.8-flash';$('zyPrompt').value=a.zyPrompt||'';$('poohPrompt').value=a.poohPrompt||'';$('autoMoments').checked=!!a.autoMoments;$('autoInstagram').checked=!!a.autoInstagram;$('momentInterval').value=String(a.interval||15)}
-function saveApiSettings(){const a={model:$('apiModel').value.trim()||'gemini-3.8-flash',zyPrompt:$('zyPrompt').value,poohPrompt:$('poohPrompt').value,autoMoments:$('autoMoments').checked,autoInstagram:$('autoInstagram').checked,interval:Number($('momentInterval').value)||15};store('v6_api',a);$('apiStatus').textContent='已保存模型与两个人的人设。API key 安全保存在网站服务器。';scheduleAutoMoment();scheduleAutoInstagram();toast('Gemini 设置已保存')}
-async function aiCall(messages,systemPrompt=''){const a=getAPI();if(!a.model)throw new Error('没有 Gemini Model');const r=await fetch('/api/gemini',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:a.model,messages,systemPrompt})});const raw=await r.text();let j;try{j=JSON.parse(raw)}catch{throw new Error('网站服务器没有返回 JSON')}if(!r.ok)throw new Error(j?.error||('HTTP '+r.status));if(!j.text)throw new Error('Gemini 响应里没有文字');return j.text}
-$('saveApi').onclick=saveApiSettings;$('clearApi').onclick=()=>{localStorage.removeItem('v6_api');renderApi();$('apiStatus').textContent='已恢复默认模型与本地人设设置。服务器 API key 不受影响。';scheduleAutoMoment();scheduleAutoInstagram()};$('testApi').onclick=async()=>{saveApiSettings();$('apiStatus').textContent='正在通过网站服务器连接 Gemini…';try{$('apiStatus').textContent='连接成功：'+await aiCall([{role:'user',content:'只回复 OK'}],'You are a connectivity test.')}catch(e){$('apiStatus').textContent='失败：'+e.message}};
-
-function defaultMoments(){return [{id:'m1',author:'Vivian',text:'燕燕的小手机上线 📱✨',time:Date.now(),likes:[],comments:[],ai:false}]}
-function getMoments(){return load('v6_moments',defaultMoments())}function setMoments(a){store('v6_moments',a)}
-function renderMoments(){const a=getMoments();$('momentsList').innerHTML=a.map(m=>`<div class="card moment" data-mid="${esc(m.id)}"><div class="avatar ${m.author==='Pooh Pooh'?'pooh':''}">${m.author==='陆泽阳'?'陆':m.author==='Pooh Pooh'?'🐻':'V'}</div><div class="momentBody"><b>${esc(m.author)} ${m.ai?'<span class="badge">AI</span>':''}</b><div class="momentText">${esc(m.text)}</div><div class="tiny">${new Date(m.time).toLocaleString()}</div><div class="momentActions"><button data-like="${esc(m.id)}">${m.likes?.includes('Vivian')?'♥':'♡'} ${m.likes?.length||0}</button><button data-comment-toggle="${esc(m.id)}">评论</button>${m.author==='Vivian'?`<button data-del-moment="${esc(m.id)}">删除</button>`:''}</div>${m.comments?.length?`<div class="comments">${m.comments.map(c=>`<div class="commentLine"><b>${esc(c.name)}：</b>${esc(c.text)}</div>`).join('')}</div>`:''}<div class="commentBox hidden" id="cb_${esc(m.id)}"><input placeholder="评论…"><button data-comment-send="${esc(m.id)}">发送</button></div></div></div>`).join('')}
-$('postMoment').onclick=()=>{const t=$('momentText').value.trim();if(!t)return;const a=getMoments();a.unshift({id:'m'+Date.now(),author:'Vivian',text:t,time:Date.now(),likes:[],comments:[],ai:false});setMoments(a);$('momentText').value='';renderMoments()};
-$('momentsList').addEventListener('click',e=>{const like=e.target.closest('[data-like]');if(like){const id=like.dataset.like,a=getMoments(),m=a.find(x=>x.id===id);m.likes=m.likes||[];const i=m.likes.indexOf('Vivian');i>=0?m.likes.splice(i,1):m.likes.push('Vivian');setMoments(a);renderMoments();return}const tog=e.target.closest('[data-comment-toggle]');if(tog){$('cb_'+tog.dataset.commentToggle)?.classList.toggle('hidden');return}const snd=e.target.closest('[data-comment-send]');if(snd){const box=$('cb_'+snd.dataset.commentSend),inp=box?.querySelector('input');const t=inp?.value.trim();if(!t)return;const a=getMoments(),m=a.find(x=>x.id===snd.dataset.commentSend);m.comments=m.comments||[];m.comments.push({name:'Vivian',text:t});setMoments(a);renderMoments();return}const del=e.target.closest('[data-del-moment]');if(del){setMoments(getMoments().filter(x=>x.id!==del.dataset.delMoment));renderMoments()}});
-async function generateAIMoment(manual=false){const a=getAPI();if(!a.model){if(manual){toast('先配置 Gemini API');view('apiSettings')}return}const who=Math.random()<.7?'zeyang':'pooh';const person=contacts[who];const sys=who==='zeyang'?a.zyPrompt:a.poohPrompt;try{const t=await aiCall([{role:'user',content:'请以你自己的身份发一条自然、简短的朋友圈动态。只输出动态正文，不解释，不加引号。'}],sys);const ms=getMoments();ms.unshift({id:'ai'+Date.now(),author:person.name,text:t,time:Date.now(),likes:[],comments:[],ai:true});setMoments(ms);if(currentView==='moments')renderMoments();if(manual)toast(person.name+' 发了一条朋友圈')}catch(e){if(manual)toast(e.message)}}
-$('aiMomentNow').onclick=()=>generateAIMoment(true);function scheduleAutoMoment(){clearTimeout(autoMomentTimer);const a=getAPI();if(!a.autoMoments||!a.model)return;const base=(a.interval||15)*60000;const delay=Math.round(base*(0.7+Math.random()*0.6));autoMomentTimer=setTimeout(async()=>{await generateAIMoment(false);scheduleAutoMoment()},delay)}scheduleAutoMoment();
-
-async function runCameraDiagnostics(show=true){const lines=[];lines.push('Protocol: '+location.protocol);lines.push('Secure context: '+window.isSecureContext);lines.push('mediaDevices: '+!!navigator.mediaDevices);let framed=false;try{framed=window.self!==window.top}catch{framed=true}lines.push('Inside iframe: '+framed);let policy='unknown';try{const pp=document.permissionsPolicy||document.featurePolicy;if(pp?.allowsFeature)policy=pp.allowsFeature('camera')}catch{}lines.push('Camera allowed by frame policy: '+policy);let perm='unknown';try{if(navigator.permissions){const p=await navigator.permissions.query({name:'camera'});perm=p.state}}catch{}lines.push('Camera permission: '+perm);if(perm==='denied'){lines.push('❌ 浏览器已经把 Camera 设为拒绝。网页本身不能把 denied 改回 allow。');lines.push('请点地址栏左侧的站点/锁形图标 → Camera/摄像头 → Allow，然后刷新。');}if(framed&&policy===false){lines.push('❌ 当前页面被嵌在不允许 Camera 的框架里。请把 HTML 在独立新标签页或 localhost 打开。');}if(location.protocol==='file:')lines.push('⚠ file:// 常被浏览器禁止调用摄像头，请用 BAT 通过 localhost 打开。');if(show||!navigator.mediaDevices)$('diagText').textContent=lines.join('\n');return {lines,perm,framed,policy}}
-async function startCamera(){const d=await runCameraDiagnostics(true);if(d.perm==='denied'){ $('cameraDiag').classList.remove('hidden'); return }if(d.framed&&d.policy===false){$('cameraDiag').classList.remove('hidden');return}if(!navigator.mediaDevices?.getUserMedia){$('diagText').textContent+='\n❌ 当前打开方式没有 getUserMedia。';return}stopCamera();try{cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});$('cameraVideo').srcObject=cameraStream;$('cameraDiag').classList.add('hidden')}catch(e){$('cameraDiag').classList.remove('hidden');const d2=await runCameraDiagnostics(false);$('diagText').textContent=d2.lines.join('\n')+'\n❌ '+e.name+': '+e.message}}
-function stopCamera(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}$('cameraVideo').srcObject=null}
-$('cameraStart').onclick=startCamera;$('cameraRetry').onclick=startCamera;$('cameraPick').onclick=()=>$('filePhoto').click();$('cameraReload').onclick=()=>location.reload();$('diagBtn').onclick=()=>{$('cameraDiag').classList.remove('hidden');runCameraDiagnostics(true)};$('shutter').onclick=()=>{const v=$('cameraVideo');if(!cameraStream||!v.videoWidth)return toast('摄像头还没开启');const c=$('cameraCanvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);const data=c.toDataURL('image/jpeg',.86);const arr=load('v6_photos',[]);arr.unshift({id:Date.now(),src:data,time:Date.now()});try{store('v6_photos',arr);toast('已拍照并存入相册')}catch{toast('照片太大，浏览器存储空间不足')}};$('photoFallback').onclick=()=>view('photos');
-function fileToData(file,cb){const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(file)}
-function addPhotoFile(file){fileToData(file,src=>{const arr=load('v6_photos',[]);arr.unshift({id:Date.now()+Math.random(),src,time:Date.now()});try{store('v6_photos',arr);renderPhotos()}catch{toast('浏览器存储空间不足')}})}
-$('importPhoto').onclick=()=>$('photoImportInput').click();$('photoImportInput').onchange=e=>[...e.target.files].forEach(addPhotoFile);$('filePhoto').onchange=e=>{if(e.target.files[0])addPhotoFile(e.target.files[0])};
-function renderPhotos(){const arr=load('v6_photos',[]);$('photoCount').textContent=`${arr.length} 张照片`;$('photoGrid').innerHTML=arr.map(p=>`<div class="photo"><img src="${p.src}"><button class="photoDel" data-photo-del="${p.id}">×</button></div>`).join('')||'<div class="card tiny" style="grid-column:1/-1">还没有照片。相机拍摄或右上角“导入”后会出现在这里。</div>'}
-$('photoGrid').onclick=e=>{const b=e.target.closest('[data-photo-del]');if(!b)return;store('v6_photos',load('v6_photos',[]).filter(x=>String(x.id)!==b.dataset.photoDel));renderPhotos()};
-
-function getNotes(){return load('v6_notes',[])}function renderNotes(){const q=$('noteSearch').value.trim().toLowerCase();const arr=getNotes().filter(n=>!q||(n.title+' '+n.body).toLowerCase().includes(q));$('notesList').innerHTML=arr.map(n=>`<div class="note" data-note="${n.id}"><b>${esc(n.title||'新备忘录')}</b><div class="tiny">${esc((n.body||'').slice(0,50))}</div></div>`).join('')||'<div class="card tiny">没有备忘录</div>'}
-function openNote(id){currentNoteId=id;const n=getNotes().find(x=>x.id===id);$('noteTitle').textContent=n?.title||'新备忘录';$('noteBody').value=n?.body||'';view('noteEditor')}
-function saveCurrentNote(){if(!currentNoteId)return;const arr=getNotes(),n=arr.find(x=>x.id===currentNoteId);if(!n)return;n.body=$('noteBody').value;n.title=(n.body.trim().split('\n')[0]||'新备忘录').slice(0,28);n.updated=Date.now();store('v6_notes',arr)}
-$('newNote').onclick=()=>{const arr=getNotes(),n={id:'n'+Date.now(),title:'新备忘录',body:'',updated:Date.now()};arr.unshift(n);store('v6_notes',arr);openNote(n.id)};$('notesList').onclick=e=>{const n=e.target.closest('[data-note]');if(n)openNote(n.dataset.note)};$('noteSearch').oninput=renderNotes;$('saveNoteBack').onclick=()=>{saveCurrentNote();back()};$('deleteNote').onclick=()=>{if(!currentNoteId)return;store('v6_notes',getNotes().filter(x=>x.id!==currentNoteId));currentNoteId=null;back()};
-
-let tracks=[],trackIndex=-1;$('importMusic').onclick=()=>$('musicInput').click();$('musicInput').onchange=e=>{for(const f of e.target.files)tracks.push({name:f.name,url:URL.createObjectURL(f)});renderPlaylist();if(trackIndex<0&&tracks.length)loadTrack(0)};function renderPlaylist(){$('playlist').innerHTML=tracks.map((t,i)=>`<div class="track" data-track="${i}">${i===trackIndex?'▶ ':''}${esc(t.name)}</div>`).join('')||'<div class="track tiny">请导入本地音频文件。出于版权和浏览器限制，歌曲文件本身不会被内置。</div>'}function loadTrack(i){if(!tracks.length)return;trackIndex=(i+tracks.length)%tracks.length;$('audio').src=tracks[trackIndex].url;$('trackName').textContent=tracks[trackIndex].name;renderPlaylist()}$('playlist').onclick=e=>{const t=e.target.closest('[data-track]');if(t){loadTrack(Number(t.dataset.track));$('audio').play()}};$('playPause').onclick=()=>{const a=$('audio');if(!a.src)return toast('先导入歌曲');a.paused?a.play():a.pause()};$('prevTrack').onclick=()=>{loadTrack(trackIndex-1);$('audio').play()};$('nextTrack').onclick=()=>{loadTrack(trackIndex+1);$('audio').play()};$('audio').ontimeupdate=()=>{$('seek').value=$('audio').duration?$('audio').currentTime/$('audio').duration*100:0};$('seek').oninput=()=>{const a=$('audio');if(a.duration)a.currentTime=a.duration*$('seek').value/100};
-
-function events(){return load('v6_events',{})}function renderCalendar(){const now=new Date(),y=now.getFullYear(),m=now.getMonth();$('calTitle').textContent=`${y}年 ${m+1}月`;const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),ev=events();let html='';for(let i=0;i<first;i++)html+='<button class="calDay blank"></button>';for(let d=1;d<=days;d++){const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const today=d===now.getDate();html+=`<button class="calDay ${today?'today':''} ${ev[key]?.length?'has':''}" data-date="${key}">${d}</button>`}$('calendarGrid').innerHTML=html;if(!selectedDate)selectedDate=`${y}-${String(m+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;renderEvents()}
-function renderEvents(){$('selectedDateLabel').textContent=selectedDate||'选择日期';const a=events()[selectedDate]||[];$('eventList').innerHTML=a.map((x,i)=>`<div class="setting"><span>${esc(x)}</span><button class="ghostBtn" data-event-del="${i}">×</button></div>`).join('')||'<div class="tiny" style="margin-top:8px">这天还没有事件。</div>'}
-$('calendarGrid').onclick=e=>{const d=e.target.closest('[data-date]');if(d){selectedDate=d.dataset.date;renderEvents()}};$('addEvent').onclick=()=>{const t=$('eventInput').value.trim();if(!t||!selectedDate)return;const ev=events();(ev[selectedDate]||(ev[selectedDate]=[])).push(t);store('v6_events',ev);$('eventInput').value='';renderCalendar()};$('eventList').onclick=e=>{const b=e.target.closest('[data-event-del]');if(!b)return;const ev=events();ev[selectedDate].splice(Number(b.dataset.eventDel),1);store('v6_events',ev);renderCalendar()};
-
-const calcBtns=['C','±','%','÷','7','8','9','×','4','5','6','−','1','2','3','+','0','.','⌫','='];let expr='';$('calcGrid').innerHTML=calcBtns.map(x=>`<button data-calc="${x}">${x}</button>`).join('');$('calcGrid').onclick=e=>{const b=e.target.closest('[data-calc]');if(!b)return;const x=b.dataset.calc;if(x==='C')expr='';else if(x==='⌫')expr=expr.slice(0,-1);else if(x==='±')expr=expr.startsWith('-')?expr.slice(1):'-'+expr;else if(x==='%')expr+='%' ;else if(x==='='){try{let q=expr.replaceAll('×','*').replaceAll('÷','/').replaceAll('−','-').replace(/(\d+(?:\.\d+)?)%/g,'($1/100)');expr=String(Function('"use strict";return ('+q+')')())}catch{expr='Error'}}else expr+=x;$('calcDisplay').textContent=expr||'0'};
-
-function defaultIG(){return [
-{id:'ig1',who:'vivian',name:'Vivian',avatar:'V',emoji:'🔬',caption:'little lab life ✦',likes:['zeyang','pooh'],comments:[{name:'zeyang',text:'做完实验记得吃饭。'}],saved:false,time:Date.now()-7200000,location:'MGVI'},
-{id:'ig2',who:'zeyang',name:'Zeyang',avatar:'陆',emoji:'🌌',caption:'晚一点也没关系，星星还在。',likes:['vivian'],comments:[],saved:true,time:Date.now()-3600000,location:'somewhere under the same sky'},
-{id:'ig3',who:'pooh',name:'Pooh Pooh',avatar:'🐻',emoji:'🍯',caption:'hunny first. everything else later.',likes:['vivian'],comments:[],saved:false,time:Date.now()-1800000,location:'Hundred Acre Wood'}]}
-function getIG(){return load('v6_ig',defaultIG())}function setIG(a){store('v6_ig',a)}
-function igAvatar(p){return `<div class="avatar ${p.who==='pooh'?'pooh':''}" style="width:34px;height:34px;border-radius:50%">${esc(p.avatar||p.name?.[0]||'?')}</div>`}
-function igMedia(p){return `<div class="igPostMedia">${p.image?`<img src="${p.image}" alt="post">`:esc(p.emoji||'✦')}</div>`}
-function renderInstagram(){renderIgStories();renderIGFeed();renderIgExplore();renderIgReels();renderIgProfile();renderIgDmPreviews()}
-function renderIgStories(){const stories=[{id:'me',who:'vivian',label:'你的快拍',icon:'🐈',text:'今天也在慢慢收集生活。'},{id:'sz',who:'zeyang',label:'zeyang',icon:'🌌',text:'刚刚看见很好看的夜空。'},{id:'sp',who:'pooh',label:'poohpooh',icon:'🐻',text:'🍯 hunny hunt.'},{id:'lab',who:'vivian',label:'lab',icon:'🧫',text:'tiny lab update'}];$('igStories').innerHTML=stories.map(x=>`<div class="igStory" data-story="${x.id}"><div class="storyRing"><div>${x.icon}</div></div>${x.label}</div>`).join('');$('igStories').onclick=e=>{const el=e.target.closest('[data-story]');if(!el)return;const st=stories.find(x=>x.id===el.dataset.story);$('igStoryCanvas').innerHTML=`<div class="storyWho">${esc(st.label)} · now</div><div class="storyOverlayText">${esc(st.text)}</div>`;view('igStoryView')}}
-function renderIGFeed(){const a=getIG();$('igFeed').innerHTML=a.map(p=>`<article class="igPost" data-igid="${p.id}"><div class="igPostHead">${igAvatar(p)}<div class="meta"><b>${esc(p.who)}</b><small>${esc(p.location||'')}</small></div><button class="ghostBtn">•••</button></div>${igMedia(p)}<div class="igPostBtns"><button data-ig-like="${p.id}">${p.likes?.includes('vivian')?'♥':'♡'}</button><button data-ig-focus-comment="${p.id}">◯</button><button data-ig-share="${p.id}">⌁</button><button class="save" data-ig-save="${p.id}">${p.saved?'▣':'▢'}</button></div><div class="igCaption"><div class="likes">${p.likes?.length||0} likes</div><div><b>${esc(p.who)}</b> ${esc(p.caption||'')}</div>${p.comments?.length?`<div class="igCommentList">${p.comments.map(c=>`<div><b>${esc(c.name)}</b> ${esc(c.text)}</div>`).join('')}</div>`:''}<div class="igCommentForm"><input id="igc_${p.id}" placeholder="添加评论…"><button data-ig-comment="${p.id}">发布</button></div><div class="muted" style="margin-top:5px">${new Date(p.time||Date.now()).toLocaleString()}</div></div></article>`).join('')}
-$('igFeed').addEventListener('click',e=>{let b=e.target.closest('[data-ig-like]');if(b){const a=getIG(),p=a.find(x=>x.id===b.dataset.igLike);p.likes=p.likes||[];const i=p.likes.indexOf('vivian');i>=0?p.likes.splice(i,1):p.likes.push('vivian');setIG(a);renderIGFeed();renderIgProfile();return}b=e.target.closest('[data-ig-save]');if(b){const a=getIG(),p=a.find(x=>x.id===b.dataset.igSave);p.saved=!p.saved;setIG(a);renderIGFeed();return}b=e.target.closest('[data-ig-focus-comment]');if(b){$('igc_'+b.dataset.igFocusComment)?.focus();return}b=e.target.closest('[data-ig-comment]');if(b){const inp=$('igc_'+b.dataset.igComment),t=inp?.value.trim();if(!t)return;const a=getIG(),p=a.find(x=>x.id===b.dataset.igComment);p.comments=p.comments||[];p.comments.push({name:'vivian',text:t});setIG(a);renderIGFeed();return}b=e.target.closest('[data-ig-share]');if(b){toast('已复制这条帖子的分享动作 ✦');return}})
-function renderIgExplore(){const q=($('igSearch')?.value||'').toLowerCase();let a=getIG();if(q)a=a.filter(p=>(p.who+' '+p.caption+' '+(p.location||'')).toLowerCase().includes(q));$('igExploreGrid').innerHTML=a.concat(a.slice(0,3)).map(p=>`<div class="igExploreCell">${p.image?`<img src="${p.image}">`:esc(p.emoji||'✦')}</div>`).join('')}$('igSearch').oninput=renderIgExplore;
-function renderIgReels(){const a=getIG().slice(0,4);$('igReels').innerHTML=a.map((p,i)=>`<div class="igReel" style="background:linear-gradient(${130+i*20}deg,#17151b,#${['67455f','35535f','5a4c31','3e415f'][i%4]})">${p.image?`<img src="${p.image}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`:esc(p.emoji||'▶')}<div class="reelCaption"><b>@${esc(p.who)}</b><br>${esc(p.caption)}</div><div class="reelActions"><button>♡</button><button>◯</button><button>⌁</button></div></div>`).join('')}
-function getIgProfile(){return load('v6_ig_profile',{username:'vivian',bio:'Microbiology · guitar · little adventures ✦\n🌌 starry wish'})}function renderIgProfile(){const own=getIG().filter(p=>p.who==='vivian'),pr=getIgProfile();$('igProfileHead').innerHTML=`<div class="igProfileRow"><div class="igProfileAvatar">🐈</div><div class="igProfileStats"><span><b>${own.length}</b>帖子</span><span><b>2,052</b>粉丝</span><span><b>521</b>关注</span></div></div><div class="igBio"><b>${esc(pr.username)}</b><br>${esc(pr.bio).replace(/\n/g,'<br>')}</div><button class="igEdit" id="igEditProfileBtn">编辑个人资料</button>`;$('igProfileGrid').innerHTML=own.map(p=>`<div class="igProfileCell">${p.image?`<img src="${p.image}">`:esc(p.emoji||'✦')}</div>`).join('')||'<div class="tiny" style="grid-column:1/-1;padding:16px">还没有帖子</div>'} $('igProfileHead').addEventListener('click',e=>{if(e.target.closest('#igEditProfileBtn')){const pr=getIgProfile();$('igProfileUsername').value=pr.username;$('igProfileBio').value=pr.bio;view('igEditProfile')}});$('igProfileSave').onclick=()=>{const pr={username:$('igProfileUsername').value.trim()||'vivian',bio:$('igProfileBio').value.trim()};store('v6_ig_profile',pr);back();renderIgProfile();toast('个人资料已保存')}
-function setIgTab(name){['Home','Explore','Reels','Profile'].forEach(n=>$('igPanel'+n)?.classList.toggle('active',n===name));$$('[data-ig-tab]').forEach(b=>b.classList.toggle('active',b.dataset.igTab===name));if(name==='Explore')renderIgExplore();if(name==='Profile')renderIgProfile()}$$('[data-ig-tab]').forEach(b=>b.onclick=()=>setIgTab(b.dataset.igTab));
-$('igCreateBtn').onclick=()=>{igDraftImage='';$('igCreatePreview').innerHTML='＋';$('igCaptionInput').value='';view('igCreate')};$('igChooseImage').onclick=()=>$('igImageInput').click();$('igCreatePreview').onclick=()=>$('igImageInput').click();$('igImageInput').onchange=e=>{const f=e.target.files[0];if(!f)return;fileToData(f,src=>{igDraftImage=src;$('igCreatePreview').innerHTML=`<img src="${src}">`})};$('igPublish').onclick=()=>{const caption=$('igCaptionInput').value.trim();if(!igDraftImage&&!caption)return toast('至少选一张照片或写一句 caption');const a=getIG();a.unshift({id:'ig'+Date.now(),who:'vivian',name:'Vivian',avatar:'V',image:igDraftImage,emoji:igDraftImage?'':'🐈',caption,likes:[],comments:[],saved:false,time:Date.now(),location:''});try{setIG(a);toast('已分享');back();renderInstagram()}catch{toast('图片太大，浏览器存储空间不足')}};
-function renderIgNotifications(){const a=getIG();const liked=a.filter(p=>p.likes?.includes('zeyang')||p.likes?.includes('pooh'));$('igNotificationList').innerHTML=`<div class="card"><b>最近</b></div>`+liked.map(p=>`<div class="chatrow"><div class="avatar">♡</div><div class="rowMain"><b>${p.likes.includes('zeyang')?'zeyang':'poohpooh'} 点赞了你的帖子</b><small>${esc((p.caption||'').slice(0,35))}</small></div></div>`).join('')+`<div class="chatrow"><div class="avatar pooh">🐻</div><div class="rowMain"><b>poohpooh 开始关注你</b><small>很久以前</small></div></div>`}
-function igDmKey(k){return 'v6_igdm_'+k}function getIgDm(k){return load(igDmKey(k),[])}
-function openIgChat(k){if(!contacts[k])return;currentIgChat=k;$('igChatTitle').textContent=k==='zeyang'?'zeyang':'poohpooh';renderIgChat();view('igChat')}
-function renderIgChat(){if(!currentIgChat)return;const a=getIgDm(currentIgChat);$('igChatBody').innerHTML=a.length?a.map(m=>m.role==='system'?`<div class="chatMeta">${esc(m.content)}</div>`:`<div class="bubble ${m.role==='user'?'me':'them'}" style="${m.role==='user'?'background:#d9efff':''}">${esc(m.content)}</div>`).join(''):`<div class="card tiny">这是 Instagram 私信，不和微信聊天记录混在一起。</div>`;$('igChatBody').scrollTop=$('igChatBody').scrollHeight;renderIgDmPreviews()}
-async function sendIgChat(){if(!currentIgChat)return;const t=$('igChatInput').value.trim();if(!t)return;let a=getIgDm(currentIgChat);a.push({role:'user',content:t,time:Date.now()});store(igDmKey(currentIgChat),a);$('igChatInput').value='';renderIgChat();const api=getAPI();if(!api.key)return toast('先配置 Gemini API');$('igTyping').classList.remove('hidden');try{const sys=currentIgChat==='zeyang'?api.zyPrompt:api.poohPrompt;const out=await aiCall(a.slice(-20),sys+'\nYou are replying in an Instagram DM. Keep the same identity.');a=getIgDm(currentIgChat);a.push({role:'assistant',content:out,time:Date.now()});store(igDmKey(currentIgChat),a);renderIgChat()}catch(e){a=getIgDm(currentIgChat);a.push({role:'system',content:'Gemini 错误：'+e.message});store(igDmKey(currentIgChat),a);renderIgChat()}finally{$('igTyping').classList.add('hidden')}}$('igSendBtn').onclick=sendIgChat;$('igChatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendIgChat()});
-function renderIgDmPreviews(){for(const [k,id] of [['zeyang','igDmPrevZ'],['pooh','igDmPrevP']]){const a=getIgDm(k),last=a.filter(x=>x.role!=='system').at(-1);if($(id))$(id).textContent=last?last.content.slice(0,30):'Instagram 私信'}}
-async function generateAIInstagramPost(manual=false){const api=getAPI();if(!api.model){if(manual){toast('先配置 Gemini API');view('apiSettings')}return}const who=Math.random()<.7?'zeyang':'pooh',person=contacts[who],sys=who==='zeyang'?api.zyPrompt:api.poohPrompt;try{const caption=await aiCall([{role:'user',content:'请以你自己的身份写一条自然的 Instagram caption，1到3句，可以带很少量 emoji。只输出 caption。'}],sys);const a=getIG();a.unshift({id:'aiig'+Date.now(),who:who==='zeyang'?'zeyang':'poohpooh',name:person.name,avatar:who==='zeyang'?'陆':'🐻',emoji:who==='zeyang'?'🌌':'🍯',caption,likes:[],comments:[],saved:false,time:Date.now(),location:'',ai:true});setIG(a);if(currentView==='instagram')renderInstagram();if(manual)toast(person.name+' 发了 Instagram')}catch(e){if(manual)toast(e.message)}}
-function scheduleAutoInstagram(){clearTimeout(autoIGTimer);const a=getAPI();if(!a.autoInstagram||!a.model)return;const base=(a.interval||15)*60000;const delay=Math.round(base*(0.85+Math.random()*0.8));autoIGTimer=setTimeout(async()=>{await generateAIInstagramPost(false);scheduleAutoInstagram()},delay)}scheduleAutoInstagram();
-
-$('browserGo').onclick=()=>{let q=$('browserInput').value.trim();if(!q)return;if(!/^https?:\/\//i.test(q))q='https://www.google.com/search?q='+encodeURIComponent(q);window.open(q,'_blank')};
-function renderSettings(){const s=load('v6_settings',{name:'燕燕的小手机',wall:'pink'});$('deviceName').value=s.name;$('wallpaper').value=s.wall;$('screen').dataset.wall=s.wall;$('homeTitle').textContent=s.name+' 🐈‍⬛'}function saveSettings(){const s={name:$('deviceName').value||'燕燕的小手机',wall:$('wallpaper').value};store('v6_settings',s);$('screen').dataset.wall=s.wall;$('homeTitle').textContent=s.name+' 🐈‍⬛'}$('deviceName').onchange=saveSettings;$('wallpaper').onchange=saveSettings;
-$('exportData').onclick=()=>{const obj={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('v6_'))obj[k]=localStorage.getItem(k)}const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='燕燕小手机备份.json';a.click();URL.revokeObjectURL(a.href)};$('importData').onclick=()=>$('importDataInput').click();$('importDataInput').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);Object.entries(o).forEach(([k,v])=>{if(k.startsWith('v6_'))localStorage.setItem(k,v)});toast('导入完成');renderSettings()}catch{toast('备份文件无效')}};r.readAsText(f)};$('resetData').onclick=()=>{if(confirm('真的清除这台小手机的所有 V6 数据吗？')){[...Array(localStorage.length)].map((_,i)=>localStorage.key(i)).filter(k=>k&&k.startsWith('v6_')).forEach(k=>localStorage.removeItem(k));location.reload()}};
-
-$('secretOpen').onclick=()=>{const v=$('secretCode').value.trim().toLowerCase();$('secretResult').innerHTML=(v==='z205'||v==='starry wish')?'<b>2024.05.02 ♡</b><div class="tiny" style="margin-top:8px">starry wish ✦<br>你在，我就在。<br>Pooh Pooh 也知道这里。 🍯</div>':'<span class="tiny">暗号不对喔 🐈</span>'};
-
-// One-time best-effort migration of compatible V5 local data.
-for(const suffix of ['chat_zeyang','chat_pooh','notes','photos','events','moments','settings']){const old='v5_'+suffix,neu='v6_'+suffix;if(localStorage.getItem(neu)==null&&localStorage.getItem(old)!=null)localStorage.setItem(neu,localStorage.getItem(old))}
-renderSettings();updatePreviews();renderNotes();renderPhotos();renderCalendar();renderInstagram();renderIgDmPreviews();
-})();
-</script>
-<script>
-if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(()=>{}));
-}
-</script>
-</body></html>
+const heavy='https://cdn.freesound.org/previews/538/538870_11658457-hq.mp3';
+const voice='https://yanyan-phone.vercel.app/api/cosy-result?voice=1';
+let a=null,v=null,busy=false;
+function stop(){if(a){a.pause();a=null}if(v){v.pause();v=null}busy=false;document.getElementById('heavy').textContent='▶︎ Heavy breath + Soft Cove'}
+document.getElementById('heavy').onclick=async()=>{
+ const b=document.getElementById('heavy'),s=document.getElementById('status');
+ if(busy){stop();s.textContent='已停止';return}
+ busy=true;b.textContent='■ 停止';s.textContent='加载中…';
+ try{
+  a=new Audio(heavy);v=new Audio(voice);a.volume=.82;v.volume=1;
+  a.currentTime=2.2;let switched=false;
+  a.ontimeupdate=()=>{if(!switched&&a.currentTime>=4.0){switched=true;a.pause();setTimeout(()=>{if(!busy)return;s.textContent='Soft Cove…';v.play().catch(e=>{s.textContent='Cove 播放失败：'+e.message;stop()})},90)}};
+  a.onerror=()=>{s.textContent='喘息素材加载失败';stop()};
+  v.onerror=()=>{s.textContent='Soft Cove 暂时不可用';stop()};
+  v.onended=()=>{s.textContent='播放完成';stop()};
+  await a.play();s.textContent='Heavy breath male…';
+ }catch(e){s.textContent='播放失败：'+e.message;stop()}
+};
+document.getElementById('stu').onclick=()=>window.open('https://pixabay.com/sound-effects/people-male-hyperventilating-panicked-breathing-457557/','_blank');
+</script></body></html>
