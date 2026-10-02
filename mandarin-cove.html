@@ -12,36 +12,60 @@ button.alt{background:#2c2c2e;color:#fff}.row{margin:14px 0;padding:14px;border-
 </style>
 </head>
 <body><div class="wrap"><div class="card">
-<h1>中文男声 · 三版</h1>
-<div class="sub">刚才“两步克隆”会失败，所以我换成 Qwen 原生 Voice Design：直接生成<strong>自然普通话男声</strong>，重点压掉外国人口音，再尽量往 Cove 的低沉、柔软、贴耳感靠。</div>
+<h1>中文 Cove 方向 · Dylan 三版</h1>
+<div class="sub">前两种方案都不稳，这次直接用 Qwen 自带的<strong>原生中文男声 Dylan</strong>，只调语气。这样优先保证中文不像外国人，再往 Cove 的低沉、柔软、贴耳感靠。</div>
 <button id="gen">生成 3 个候选</button>
 <div id="rows"></div>
-<div class="status" id="status">这次每版只生成一次，稳定很多。</div>
+<div class="status" id="status">会先试 1.7B；如果忙或失败，自动降到 0.6B。</div>
 </div></div>
 <script>
 const SPACE='https://qwen-qwen3-tts.hf.space';
-const END='generate_voice_design';
+const END='generate_custom_voice';
 const TEXT='别抖。放松。';
-const DESCS=[
- 'A young adult male native Mandarin Chinese speaker. Warm low-pitched voice, soft and intimate, close-mic, calm, gentle, slightly breathy, natural Beijing-neutral Mandarin pronunciation, no foreign accent, no exaggerated acting.',
- 'A native Mandarin Chinese male in his mid twenties. Deep but not overly bassy, tender, quiet, emotionally warm, close and private speaking style, smooth natural Chinese rhythm and pronunciation, no foreign accent.',
- 'A young native Chinese man speaking Mandarin very naturally. Soft low voice, relaxed, restrained, affectionate, slightly husky, close-microphone feeling, slow and gentle delivery, standard Mandarin, absolutely no foreign accent.'
+const SPEAKER='Dylan';
+const STYLES=[
+ 'Speak very softly and gently, with a low intimate tone, close-mic feeling, calm and restrained. Natural Mandarin pronunciation. Slow down slightly.',
+ 'Speak in a warm, quiet, affectionate tone. Keep the voice low, relaxed and close, with very subtle breathiness. Natural Mandarin rhythm, not theatrical.',
+ 'Speak softly in a slightly husky, tender, private tone, as if speaking close to someone. Keep it calm, slow, natural and understated.'
 ];
+const LABELS=['偏低沉温柔','偏自然亲密','偏轻哑贴耳'];
 const $=id=>document.getElementById(id);
 
-async function call(desc){
- const st=await fetch(SPACE+'/gradio_api/call/'+END,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:[TEXT,'Chinese',desc]})});
+async function call(style,model){
+ const st=await fetch(SPACE+'/gradio_api/call/'+END,{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({data:[TEXT,'Chinese',SPEAKER,style,model]})
+ });
  if(!st.ok) throw new Error('start '+st.status);
  const q=await st.json(); if(!q.event_id) throw new Error('no event id');
  const ev=await fetch(SPACE+'/gradio_api/call/'+END+'/'+encodeURIComponent(q.event_id));
  const raw=await ev.text();
  if(/event:\s*error/i.test(raw)) throw new Error('generation failed');
  let payload=null;
- for(const line of raw.split(/\r?\n/)){if(line.startsWith('data:')){try{payload=JSON.parse(line.slice(5).trim())}catch{}}}
- const f=Array.isArray(payload)?payload[0]:null;
- const u=f&&typeof f==='object'&&(f.url||f.path);
- if(!u) throw new Error('no audio returned');
+ for(const line of raw.split(/\r?\n/)){
+  if(line.startsWith('data:')){
+   try{payload=JSON.parse(line.slice(5).trim())}catch{}
+  }
+ }
+ if(!Array.isArray(payload)) throw new Error('bad response');
+ const f=payload[0];
+ const status=String(payload[1]||'');
+ if(!f || typeof f!=='object'){
+   if(status) throw new Error(status);
+   throw new Error('no audio returned');
+ }
+ const u=f.url||f.path;
+ if(!u) throw new Error(status||'no audio returned');
  return /^https?:\/\//.test(u)?u:(u.startsWith('/')?SPACE+u:SPACE+'/gradio_api/file='+encodeURIComponent(u));
+}
+
+async function generate(style){
+ try{return await call(style,'1.7B')}
+ catch(e1){
+   try{return await call(style,'0.6B')}
+   catch(e2){throw new Error((e2.message||e1.message||'generation failed'))}
+ }
 }
 
 async function one(i){
@@ -49,21 +73,21 @@ async function one(i){
  btn.disabled=true; btn.textContent='生成中…';
  try{
    st.textContent='正在生成候选 '+(i+1)+'…';
-   const out=await call(DESCS[i]);
+   const out=await generate(STYLES[i]);
    btn.disabled=false; btn.textContent='▶︎ 播放候选 '+(i+1);
    btn.onclick=()=>new Audio(out).play();
-   st.textContent='完成。重点听：普通话自然度、音色、亲密感。';
+   st.textContent='完成。重点听中文自然度和声音贴不贴近你要的感觉。';
  }catch(e){
    btn.disabled=false; btn.textContent='重试候选 '+(i+1); btn.onclick=()=>one(i);
    st.textContent='失败：'+e.message;
  }
 }
 function build(){
- $('rows').innerHTML=DESCS.map((d,i)=>`<div class="row" id="r${i}"><b>候选 ${i+1}</b><small>${i===0?'偏温柔低沉':i===1?'偏亲密自然':'偏轻哑贴耳'}</small><button class="alt" disabled>等待生成</button><div class="st status"></div></div>`).join('');
+ $('rows').innerHTML=STYLES.map((_,i)=>`<div class="row" id="r${i}"><b>候选 ${i+1}</b><small>${LABELS[i]}</small><button class="alt" disabled>等待生成</button><div class="st status"></div></div>`).join('');
 }
 $('gen').onclick=async()=>{
  $('gen').disabled=true;build();$('status').textContent='开始生成，按顺序一版一版来。';
  for(let i=0;i<3;i++) await one(i);
- $('gen').disabled=false;$('status').textContent='听完直接告诉我 1 / 2 / 3 哪个最像你想要的。';
+ $('gen').disabled=false;$('status').textContent='听完直接告诉我 1 / 2 / 3 哪个最接近你要的。';
 };
 </script></body></html>
