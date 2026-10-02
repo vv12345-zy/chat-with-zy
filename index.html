@@ -8,35 +8,60 @@ body{margin:0;background:#0f0f10;color:#fff;font-family:-apple-system,BlinkMacSy
 .wrap{width:min(92vw,520px);padding:24px}.card{background:#1c1c1e;border-radius:22px;padding:22px;box-shadow:0 12px 50px #0006}
 h1{font-size:24px;margin:0 0 8px}.sub{opacity:.67;font-size:14px;line-height:1.55;margin-bottom:18px}
 button{width:100%;border:0;border-radius:999px;padding:16px 18px;font-size:17px;font-weight:700;background:#fff;color:#111;margin:8px 0}
-button.secondary{background:#2c2c2e;color:#fff}.status{font-size:13px;opacity:.7;min-height:20px;margin-top:10px}
+button.secondary{background:#2c2c2e;color:#fff}.status{font-size:13px;opacity:.76;min-height:38px;margin-top:10px;line-height:1.45}
 </style>
 </head>
 <body><div class="wrap"><div class="card">
-<h1>陆泽阳 · 喘息 + Soft Cove</h1>
-<div class="sub">Heavy breath male 真人喘息 → Soft Cove「别抖。放松。」</div>
-<button id="heavy">▶︎ Heavy breath + Soft Cove</button>
-<button id="stu" class="secondary">▶︎ StuieStu 原页试听</button>
-<div class="status" id="status">点第一个直接听合成版。</div>
+<h1>陆泽阳 · 可用试听版</h1>
+<div class="sub">先用已经确认能播的真人 sigh + 你喜欢的 Soft Cove。Soft Cove 会直接尝试备用 CosyVoice Space，不再经过 Vercel。</div>
+<button id="play">▶︎ 喘息 + Soft Cove</button>
+<button id="pix" class="secondary">打开你喜欢的 Heavy breath / Hyperventilating 原页</button>
+<div class="status" id="status">点第一个，我会自动尝试备用 CosyVoice。</div>
 </div></div>
 <script>
-const heavy='https://cdn.freesound.org/previews/538/538870_11658457-hq.mp3';
-const voice='https://yanyan-phone.vercel.app/api/cosy-result?voice=1';
-async function getSoftCove(){let last='';for(let i=1;i<=18;i++){document.getElementById('status').textContent='正在抢 Soft Cove GPU… '+i+'/18';try{const r=await fetch(voice+'&_='+Date.now(),{cache:'no-store'});if(r.ok){const blob=await r.blob();if(blob.size>1000)return URL.createObjectURL(blob);last='空音频'}else{last='HTTP '+r.status}}catch(e){last=e.message}await new Promise(x=>setTimeout(x,1800))}throw new Error(last||'Soft Cove 暂时忙')}
-let a=null,v=null,busy=false;
-function stop(){if(a){a.pause();a=null}if(v){v.pause();v=null}busy=false;document.getElementById('heavy').textContent='▶︎ Heavy breath + Soft Cove'}
-document.getElementById('heavy').onclick=async()=>{
- const b=document.getElementById('heavy'),s=document.getElementById('status');
- if(busy){stop();s.textContent='已停止';return}
- busy=true;b.textContent='■ 停止';s.textContent='加载中…';
- try{
-  const voiceUrl=await getSoftCove();a=new Audio(heavy);v=new Audio(voiceUrl);a.volume=.82;v.volume=1;
-  a.currentTime=2.2;let switched=false;
-  a.ontimeupdate=()=>{if(!switched&&a.currentTime>=4.0){switched=true;a.pause();setTimeout(()=>{if(!busy)return;s.textContent='Soft Cove…';v.play().catch(e=>{s.textContent='Cove 播放失败：'+e.message;stop()})},90)}};
-  a.onerror=()=>{s.textContent='喘息素材加载失败';stop()};
-  v.onerror=()=>{s.textContent='Soft Cove 播放失败';stop()};
-  v.onended=()=>{s.textContent='播放完成';try{URL.revokeObjectURL(v.src)}catch{};stop()};
-  await a.play();s.textContent='Heavy breath male…';
- }catch(e){s.textContent='播放失败：'+e.message;stop()}
+const sigh='https://cdn.freesound.org/previews/799/799579_16968183-hq.mp3';
+const ref='https://huggingface.co/MoYoYoTech/tone-models/resolve/main/ref_audios/cove_ref.wav';
+const spaces=[
+  'https://xiao121221-cosyvoice3.hf.space',
+  'https://funaudiollm-fun-cosyvoice3-0-5b.hf.space'
+];
+let current=[];
+const $=id=>document.getElementById(id);
+function stopAll(){current.forEach(a=>{try{a.pause()}catch{}});current=[];$('play').textContent='▶︎ 再听一次'}
+async function makeVoice(base){
+  const data=['别抖。放松。','instruct','',{path:ref,url:ref,orig_name:'cove_ref.wav',meta:{_type:'gradio.FileData'}},null,'You are a helpful assistant. Please say a sentence in a very soft voice.<|endofprompt|>',233333,false,'Zh'];
+  const st=await fetch(base+'/gradio_api/call/generate_audio',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data})});
+  if(!st.ok)throw new Error('start '+st.status);
+  const q=await st.json(); if(!q.event_id)throw new Error('no event');
+  const ev=await fetch(base+'/gradio_api/call/generate_audio/'+encodeURIComponent(q.event_id));
+  const raw=await ev.text(); if(/event:\s*error/i.test(raw))throw new Error('busy');
+  let payload=null; for(const line of raw.split(/\r?\n/)){if(line.startsWith('data:')){try{payload=JSON.parse(line.slice(5).trim())}catch{}}}
+  const f=Array.isArray(payload)?payload[0]:null; const u=f&&typeof f==='object'&&(f.url||f.path);
+  if(!u)throw new Error('no audio');
+  return /^https?:\/\//.test(u)?u:(u.startsWith('/')?base+u:base+'/gradio_api/file='+encodeURIComponent(u));
+}
+async function getVoice(){
+  let err='';
+  for(const base of spaces){
+    $('status').textContent='正在尝试 Soft Cove：'+base.replace('https://','').split('.')[0]+'…';
+    try{return await makeVoice(base)}catch(e){err=e.message}
+  }
+  throw new Error(err||'Soft Cove unavailable');
+}
+$('play').onclick=async()=>{
+  if(current.length){stopAll();$('status').textContent='已停止';return}
+  $('play').textContent='■ 停止';
+  try{
+    const voiceUrl=await getVoice();
+    $('status').textContent='Soft Cove 已生成，开始播放…';
+    const a=new Audio(sigh),v=new Audio(voiceUrl);current=[a,v];
+    a.volume=.8;v.volume=1;
+    a.onended=()=>setTimeout(()=>v.play(),80);
+    v.onended=()=>{current=[];$('play').textContent='▶︎ 再听一次';$('status').textContent='播放完成'};
+    a.onerror=()=>{$('status').textContent='真人 sigh 加载失败';stopAll()};
+    v.onerror=()=>{$('status').textContent='Soft Cove 音频加载失败';stopAll()};
+    await a.play();
+  }catch(e){$('status').textContent='Soft Cove 还是没抢到：'+e.message;stopAll()}
 };
-document.getElementById('stu').onclick=()=>window.open('https://pixabay.com/sound-effects/people-male-hyperventilating-panicked-breathing-457557/','_blank');
+$('pix').onclick=()=>window.open('https://pixabay.com/sound-effects/search/male-breathing/','_blank');
 </script></body></html>
